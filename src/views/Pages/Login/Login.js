@@ -9,7 +9,7 @@ import {
     Row
 } from 'reactstrap';
 const URL = window.location.origin;
-const CLIENT_ID = 'process.env.REACT_APP_CLIENT_ID';
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const REDIRECT_URI = `${URL}/callback`;
 
 class Login extends Component {
