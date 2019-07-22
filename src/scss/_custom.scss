@@ -1,0 +1,286 @@
+// Here you can add other styles
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 576px;
+
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+
+// Tablets and small desktops
+$screen-lg-min: 992px;
+
+// Large tablets and desktops
+$screen-xl-min: 1200px;
+// Small devices
+@mixin sm {
+  @media (max-width: #{$screen-sm-min}) {
+    @content;
+  }
+}
+
+// Medium devices
+@mixin md {
+  @media (max-width: #{$screen-md-min}) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin lg {
+  @media (max-width: #{$screen-lg-min}) {
+    @content;
+  }
+}
+
+// Extra large devices
+@mixin xl {
+  @media (max-width: #{$screen-xl-min}) {
+    @content;
+  }
+}
+// Header
+.dropdown-item {
+  i {
+    display: inline-block;
+    width: 20px;
+    margin-right: 10px;
+    margin-left: -10px;
+    color: #c8ced3;
+    text-align: center;
+  }
+}
+
+// 위치검색
+.map-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 600px;
+}
+
+.map-controls {
+  position: absolute;
+  top:0;
+  left:0;
+  z-index:1;
+  width: 400px;
+  height: 37px;
+  margin-top: 10px;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  text-overflow: ellipsis;
+}
+
+/*옵션선택폼*/
+.option-wrap{
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.option-select{
+  width: 150px;
+  height: 35px;
+  line-height: 35px;
+  padding-left: 15px;
+  border: 1px solid #ededed;
+  border-radius:5px;
+  cursor: pointer;
+}
+.option-select {
+  .option-ico {
+    display: inline-block;
+    float: right;
+    width: 30px;
+    height: 35px;
+    background: #f0f3f5;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}
+.option-select {
+  .option-ico {
+    img {
+      width: 15px;
+      vertical-align: middle;
+    }
+  }
+}
+.option-list-wrap-banks{
+  display: none;
+  position: absolute;
+  z-index: 400;
+  top: 35px;
+  left: 0;
+  width: 150px;
+  height: auto;
+  padding-bottom: 10px;
+  background: #fff;
+  border: 1px solid #f0f3f5;
+
+}
+.visible{
+  display: block;
+}
+.option-list-wrap-banks {
+  .option-list-box {
+    float: left;
+    padding: 10px 10px 0;
+    box-sizing:border-box;
+  }
+}
+.option-list-wrap-banks {
+  .option-list-box {
+    .option-title{
+      display: block;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+  }
+}
+.option-list-wrap-banks {
+  .option-list-box {
+    .option-list {
+      padding: 0;
+      margin-bottom: 0;
+    }
+  }
+}
+.option-list-wrap-banks {
+  .option-list-box {
+    .option-list {
+      li {
+        list-style: none;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+.option-list-wrap-banks {
+  .option-list-box {
+    .option-list {
+      li {
+        input{
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}
+.option-list-wrap-banks {
+  .btn-close-wrap {
+    padding-right: 10px;
+  }
+}
+.option-list-wrap-banks {
+  .btn-close-wrap {
+    input{
+      float: right;
+      height: 30px;
+      border: 1px solid #f0f3f5;
+      border-radius: 3px;
+    }
+  }
+}
+
+//네이버월간조회수
+.wrap-table {
+  display:block;
+  overflow: auto;
+  border:1px solid #dee2e6;
+}
+.naver-keyword {
+  tbody {
+    tr {
+      td {
+        &:first-child{
+         min-width:143px;
+        }
+      }
+    }
+   }
+}
+.table  {
+  min-width: 100%;
+}
+
+//차트
+.chart-area {
+  display: inline-block;
+  width: 780px;
+  height: 400px;
+}
+
+//로딩
+.wrap-spinner {
+  position:absolute;
+  top:50%;
+  left:50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.search-filter {
+  overflow: hidden;
+  max-width: 720px;
+  @include xl {
+    width: 70%;
+    padding-bottom: 40px;
+  }
+  @include sm {
+    width: 100%
+  }
+
+  .search-area {
+    float: left;
+    @include xl {
+      width: 100%;
+    }
+
+    dl {
+      display: table;
+      height: 40px;
+      margin-bottom: 0;
+      table-layout: fixed;
+      @include xl {
+        width: 100%;
+      }
+
+      dt {
+        display: table-cell;
+        width: 80px;
+        vertical-align: middle;
+        @include xl {
+          &.text-center {
+            text-align: left !important;
+          }
+        }
+      }
+
+      dd {
+        display: table-cell;
+        vertical-align: middle;
+        @include sm {
+          button {
+            width: calc(100% - 23px) !important;
+          }
+        }
+        @include xl {
+          input[type="number"] {
+            width: calc(50% - 35px) !important;
+          }
+          select {
+            width: calc(100% - 23px) !important;
+          }
+          input[type="text"] {
+            width: calc(100% - 23px) !important;
+          }
+        }
+      }
+    }
+  }
+}
+

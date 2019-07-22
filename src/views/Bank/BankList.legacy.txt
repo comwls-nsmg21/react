@@ -1,0 +1,175 @@
+import React, {Component, Fragment} from 'react';
+import ReactDOM from "react-dom";
+import axios from 'axios';
+
+import '../Chart/chart.min';
+import '../Chart/sample_utils';
+import '../Chart/chart.min.css';
+
+import ChartBar from "../Chart/ChartBar";
+import ChartLine from "../Chart/ChartLine";
+
+class BankList extends Component {
+
+	constructor(props) {
+		super(props);
+		this.api = {
+			'banks.getKeys': '/api/banks',
+			'banks.indexCom': '/api/banks/companies',
+			'banks.indexPvt': '/api/banks/personals',
+			'banks.showStatsCom': '/api/banks/companies/stats',
+			'banks.showStatsPvt': '/api/banks/personals/stats',
+		};
+		this.banksKey = [];
+	}
+
+	state = {
+		resBanks: [],
+	};
+
+	componentWillMount() {
+		if(this.state.resBanks.length === 0) {
+			let pm = new Promise(resolve => {
+				if(this.state.resBanks.length === 0) this.getBanksKey();
+				resolve();
+			});
+			pm.then(() => { this.getBanks(); });
+		}
+	}
+
+	getApi = () => {
+		let api;
+		switch (this.props.page) {
+			default: case 'bank_com': api = this.api["banks.indexCom"]; break;
+			case 'bank_pvt': api = this.api["banks.indexPvt"]; break;
+		}
+		return api;
+	};
+
+	getBanks = () => {
+		let date = new Date();
+		axios.get(this.getApi(), {
+			params: { 'searchDate': date.getFullYear() + '-' + (date.getMonth() + 1) },
+		}).then(res => { //console.log(res.data.data);
+			this.setState({ resBanks: res.data.data });
+		}).catch(err => { console.log(err);
+		}).finally(() => {});
+	};
+
+	getBanksKey = () => { //console.log('getKey');
+
+	};
+
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		return nextState !== this.state;
+	}
+
+	render() {
+
+		const { resBanks } = this.state; //console.log(resBanks);
+		if((resBanks.length === 0) || (Object.keys(resBanks).length === 0)) return(<Fragment> </Fragment>);
+
+		const breadcrumb = (
+			<ol className="breadcrumb">
+				<li className="breadcrumb-item"><a href="/">대시보드</a></li>
+				<li className="breadcrumb-item">은행 트렌드</li>
+				<li className="breadcrumb-item active"><strong>은행별 종합지수</strong></li>
+			</ol>
+		);
+
+		const filters = (
+			<div>
+				<form action="#">
+					<label htmlFor="date">검색월</label>
+					<input id="date" type="date" defaultValue="2019-06" style={{'marginLeft':10,'border':'1px solid #ccc', 'borderRadius':2, color:'#757575'}}/>
+					<select name="sel" id="sel" style={{'marginLeft':10,'border':'1px solid #ccc', 'borderRadius':2, color:'#757575'}} defaultValue="0">
+						<option value="0">은행명 선택</option>
+						<option value="1" >국민은행</option>
+						<option value="2" >카카오뱅크</option>
+						<option value="3" >신한은행</option>
+						<option value="4" >농협</option>
+						<option value="5" >산업은행</option>
+						<option value="6" >제주은행</option>
+					</select>
+				</form>
+			</div>
+		);
+
+		const charts = (
+			<div style={{ 'width': '60%', 'display':'flex','flexFlow':'row','margin':'auto','paddingBottom':50, 'paddingTop':20}}>
+				<div style={{'flex':1}}>
+					<h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center' }}>각 은행 그래프를 클릭하면 6개월 추이가 표시됩니다.</h2>
+					<ChartBar id={1} item={{
+						keys: resBanks.map(obj => (obj.bankName)),
+						title: '',
+						values: resBanks.map(obj => (obj.count)),
+					}} />
+				</div>
+			</div>
+		);
+
+		const chartsSelect = (
+			<div style={{ 'width': '60%', 'display':'flex','flexFlow':'row','margin':'auto'}}>
+				<div style={{'flex':1}}>
+					<h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center' }}>6개월 추이</h2>
+					<ChartLine id={2} item={{
+						keys: ['2018년 11월', '2018년 12월', '2019년 1월', '2019년 2월', '2019년 3월', '2019년 4월'],
+						title: '',
+						values: [[7, 4, 5, 7, 8, 3], [3, 8, 7, 5, 4, 7], [5, 4, 3, 7, 8, 9]],
+						ids: ['국민은행', '카카오뱅크', '신한은행'],
+					}}/>
+				</div>
+			</div>
+		);
+
+		const tagsSelect = (
+			<div>
+				<span style={{'padding':5,'margin':5,'border':'1px solid #ccc','borderRadius':2,'textAlign':'center'}}>국민은행<a href="#" style={{'paddingLeft':10,'fontSize':18,'fontWeight':600,'color':'#b91d19'}}>x</a></span>
+				<span style={{'padding':5,'margin':5,'border':'1px solid #ccc','borderRadius':2,'textAlign':'center'}}>농협<a href="#" style={{'paddingLeft':10,'fontSize':18,'fontWeight':600,'color':'#b91d19'}}>x</a></span>
+			</div>
+		);
+
+		const contentHead = (
+			<div className="card-header">
+				<div className="float-left mt-2"><i className="fa fa-building"> </i> 은행 트렌드</div>
+				<div className="float-right"> </div>
+			</div>
+		);
+
+		const content = (
+			<main className="main">
+				{ breadcrumb }
+				<div className="container-fluid">
+					<div className="animated fadeIn">
+						<div className="row">
+							<div className="col-md-12">
+								<div className="card">
+									{ contentHead }
+									<div className="card-body">
+										{ filters }
+										{ charts }
+										{ tagsSelect }
+										{ chartsSelect }
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		);
+
+		const out = (<Fragment>{ content }</Fragment>);
+
+		return (<Fragment> { out } </Fragment>);
+	}
+}
+
+export default BankList;
+
+//https://www.laracasts.com/discuss/channels/laravel/pass-parameter-from-laravel-controller-to-react-component-prop
+if (document.getElementById('pf_react_bank')) {
+	const element = document.getElementById('pf_react_bank');
+	const props = Object.assign({}, element.dataset);
+	ReactDOM.render(<BankList {...props} />, element);
+}
