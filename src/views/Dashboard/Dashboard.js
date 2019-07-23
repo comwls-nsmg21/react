@@ -63,7 +63,7 @@ class Dashboard extends Component {
 
         const {statsAmount, statsCat, statsEmpl, statsTop, statsLocation} = this.state;
         const isNotEmpty = (((statsAmount.length > 0) && (Object.keys(statsCat).length > 0) && (statsEmpl.length > 0) && (Object.keys(statsTop).length > 0)) && (Object.keys(statsLocation).length > 0));
-        console.log(statsEmpl.map((val, idx) => ([val.label, val.count, (idx===0 ? true : false), (idx===0 ? true : null)])))
+        
         const charts = (isNotEmpty) && (
             <div className="animated fadeIn">
                 <div className="row">

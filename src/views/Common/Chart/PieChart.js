@@ -32,7 +32,10 @@ class PieChart extends Component {
                 keys: ['name', 'y', 'selected', 'sliced'],
                 data: values,
                 showInLegend: true
-            }]
+            }],
+            credits: {
+                enabled: false,
+            }
         };
         return (
             <>

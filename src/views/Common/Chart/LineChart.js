@@ -69,6 +69,9 @@ class LineChart extends Component {
                         }
                     }
                 }]
+            },
+            credits: {
+                enabled: false,
             }
         };
         return (

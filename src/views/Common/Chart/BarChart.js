@@ -32,6 +32,9 @@ class BarChart extends Component {
             legend: {
                 enabled: false
             },
+            credits: {
+                enabled: false,
+            }
         };
         return (
             <>
