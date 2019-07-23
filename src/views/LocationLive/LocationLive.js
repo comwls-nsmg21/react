@@ -3,6 +3,7 @@ import axios from 'axios';
 import LocationLiveItem from './LocationLiveItem'
 import ChartLine from "../Chart/ChartLine";
 import $ from 'jquery'
+import LineChart from '../Common/Chart/LineChart';
 class LocationLive extends Component {
     constructor(props) {
         super(props);
@@ -97,6 +98,9 @@ class LocationLive extends Component {
                             <div className="card">
                                 {contentHead}
                                 <div className="card-body">
+                                    <LineChart items={{
+                                        keys: Object.keys(banks.label).map(key => banks.label[key]),
+                                    }} />
                                     {chart}
                                     <hr />
                                     {contentItems}

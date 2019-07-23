@@ -5,7 +5,7 @@ import CompanyItem from "./CompanyItem";
 import CompanyListFilter from "./CompanyListFilter";
 import ChartBar from "../Chart/ChartBar";
 import ChartPie from "../Chart/ChartPie";
-import {jQuery} from 'jquery'
+import $ from 'jquery'
 import ReactPaginate from 'react-paginate';
 
 
@@ -72,7 +72,7 @@ class CompanyList extends Component {
     };
 
     handleChartDisplay = () => {
-        let areaChart = jQuery('#area_chart');
+        let areaChart = $('#area_chart');
         const display = (areaChart.css('display') === 'none') ? 'flex' : 'none';
         areaChart.css('display', display);
     };

@@ -1,7 +1,5 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
-import ChartPie from "../Chart/ChartPie";
-//highchart
 import BarChart from '../Common/Chart/BarChart'
 import PieChart from '../Common/Chart/PieChart';
 

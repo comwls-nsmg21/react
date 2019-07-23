@@ -35,9 +35,9 @@ class PieChart extends Component {
             }]
         };
         return (
-            <div>
+            <>
                 <ReactHighcharts config = {config}></ReactHighcharts>
-            </div>
+            </>
         );
     }
 }

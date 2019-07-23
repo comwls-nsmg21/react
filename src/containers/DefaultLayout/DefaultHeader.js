@@ -15,6 +15,10 @@ const propTypes = {
 const defaultProps = {};
 
 class DefaultHeader extends Component {
+  logOut = () => {
+    localStorage.clear();
+    window.location.reload();
+};
   render() {
 
     // eslint-disable-next-line
@@ -34,7 +38,13 @@ class DefaultHeader extends Component {
               <img src={avatar} className="img-avatar" alt="admin@bootstrapmaster.com" />
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto', height: '400px' }}>
-              AppHeaderDropdown
+              <div className="dropdown-header text-center">
+                  <strong>관리자 님</strong>
+              </div>
+              <button className="dropdown-item" onClick={this.logOut}>
+                  <i className="fa fa-lock"></i>
+                  Logout
+              </button>
             </DropdownMenu>
           </AppHeaderDropdown>
         </Nav>
