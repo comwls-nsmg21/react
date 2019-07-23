@@ -63,7 +63,7 @@ class LocationLive extends Component {
 
         const chart = (isNotEmpty) && (
             <div id="area_chart" style={{'width':'100%', 'display':'none','flexFlow':'row','paddingRight':'2%','boxSizing':'border-box', 'marginBottom': '2%', 'marginTop': '40px', }}>
-                {/*<h2 style={{ 'marginBottom':10,'fontSize': 20,'textAlign':'center' }}>위치기반 일별 라이브</h2>*/}
+                {/*<h2 style={{ 'marginBottom':10,'fontSize': 20,'textAlign':'center' }}>위치기반 일별 라이브</h2>
                 <ChartLine id={1} item={{
                     ids: Object.entries(banks.items).map(bank => bank[0]),
                     keys: Object.keys(banks.label).map(key => banks.label[key]),
@@ -72,6 +72,7 @@ class LocationLive extends Component {
                     beginAtZero: 'true'
                 }}
                 />
+                */}
             </div>
         );
 
@@ -99,7 +100,7 @@ class LocationLive extends Component {
                                 {contentHead}
                                 <div className="card-body">
                                     <LineChart items={{
-                                        keys: Object.keys(banks.label).map(key => banks.label[key]),
+                                        keys: banks,
                                     }} />
                                     {chart}
                                     <hr />
