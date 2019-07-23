@@ -1,8 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import axios from 'axios';
-
-import ChartBar from "../Chart/ChartBar";
 import ChartPie from "../Chart/ChartPie";
+//highchart
+import BarChart from '../Common/Chart/BarChart'
+import PieChart from '../Common/Chart/PieChart';
 
 class Dashboard extends Component {
 
@@ -64,20 +65,21 @@ class Dashboard extends Component {
 
         const {statsAmount, statsCat, statsEmpl, statsTop, statsLocation} = this.state;
         const isNotEmpty = (((statsAmount.length > 0) && (Object.keys(statsCat).length > 0) && (statsEmpl.length > 0) && (Object.keys(statsTop).length > 0)) && (Object.keys(statsLocation).length > 0));
-
+        console.log(statsEmpl.map((val, idx) => ([val.label, val.count, (idx===0 ? true : false), (idx===0 ? true : null)])))
         const charts = (isNotEmpty) && (
             <div className="animated fadeIn">
                 <div className="row">
+
                     <div className="col-sm-6 col-md-4">
                         <div className="card">
                             <div className="card-header">
                                 Top 100 기업 업종별 사업장 비율
                             </div>
                             <div className="card-body">
-                                <ChartBar id={1} item={{
-                                    keys: Object.keys(statsTop.category), //['제조', '도매', '소매', '운수'],
-                                    values: Object.values(statsTop.category), //[3, 2, 5, 12],
-                                }}/>
+                                <BarChart item={{
+                                    keys: Object.keys(statsTop.category),
+                                    values: Object.values(statsTop.category),
+                                }} />
                             </div>
                         </div>
                     </div>
@@ -87,25 +89,22 @@ class Dashboard extends Component {
                                 Top 100 사업장 위치
                             </div>
                             <div className="card-body">
-                                <ChartBar id={2} item={{
-                                    keys: Object.keys(statsTop.sido), //['서울', '부산', '인천', '제주'],
-                                    values: Object.values(statsTop.sido), //[12, 5, 3, 2],
-                                }}/>
+                                <BarChart item={{
+                                    keys: Object.keys(statsTop.sido),
+                                    values: Object.values(statsTop.sido),
+                                }} />
                             </div>
                         </div>
                     </div>
                     <div className="col-sm-6 col-md-4">
                         <div className="card">
                             <div className="card-header">
-                                국민연금 가입자수 기준 사업장 수
+                            국민연금 가입자수 기준 사업장 수
                             </div>
                             <div className="card-body">
-                                <ChartPie id={3} item={{
-                                    keys: statsEmpl.map(obj => (obj.label)).reverse(),
-                                    legend: {position: 'right'},
-                                    title: '국민연금 가입자수 기준 사업장 수',
-                                    values: statsEmpl.map(obj => (obj.count)).reverse(),
-                                }}/>
+                                <PieChart item={{
+                                    values: statsEmpl.map((val, idx) => ([val.label, val.count, (idx===0 ? true : false), (idx===0 ? true : null)]))
+                                }} />
                             </div>
                         </div>
                     </div>
@@ -115,12 +114,9 @@ class Dashboard extends Component {
                                 고지금액 기준 사업장 수
                             </div>
                             <div className="card-body">
-                                <ChartPie id={4} item={{
-                                    keys: statsAmount.map(obj => (obj.label)).reverse(),
-                                    legend: {position: 'right'},
-                                    title: '고지금액 기준 사업장 수',
-                                    values: statsAmount.map(obj => (obj.count)).reverse(),
-                                }}/>
+                                <PieChart item={{
+                                    values: statsAmount.map((val, idx) => ([val.label, val.count, (idx===0 ? true : false), (idx===0 ? true : null)]))
+                                }} />
                             </div>
                         </div>
                     </div>
@@ -130,9 +126,8 @@ class Dashboard extends Component {
                                 업종 기준 사업장
                             </div>
                             <div className="card-body">
-                                <ChartBar id={5} item={{
+                                <BarChart item={{
                                     keys: Object.keys(statsCat).reverse(),
-                                    title: '업종 기준 사업장 수',
                                     values: Object.values(statsCat).reverse(),
                                 }}
                                 />
@@ -145,16 +140,14 @@ class Dashboard extends Component {
                                 위치기반 일별 라이브
                             </div>
                             <div className="card-body">
-                                <ChartBar id={7} item={{
+                                <BarChart item={{
                                     keys: Object.keys(statsLocation.label).map(key => statsLocation.label[key]),
-                                    title: '위치기반 일별 라이브',
                                     values: Object.values(statsLocation.total)
                                 }}
                                 />
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
 
@@ -167,7 +160,7 @@ class Dashboard extends Component {
 
         );
 
-        return (<Fragment> {content} </Fragment>);
+        return (<> {content} </>);
     }
 }
 
