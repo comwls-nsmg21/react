@@ -26,7 +26,7 @@ class LineChart extends Component {
     };
     render() {
         const { keys, values } = this.props.item;
-        console.log(keys)
+        console.log(values)
         const config = {
             title: false,
         

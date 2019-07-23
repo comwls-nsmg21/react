@@ -7,6 +7,7 @@ import ChartBar from "../Chart/ChartBar";
 import ChartPie from "../Chart/ChartPie";
 import $ from 'jquery'
 import ReactPaginate from 'react-paginate';
+import BarChart from '../Common/Chart/BarChart';
 
 
 class CompanyList extends Component {
@@ -204,17 +205,17 @@ class CompanyList extends Component {
 
         const chartsTop = ((isNotEmpty) && (!(this.isPageCom()))) && (
             <div id="area_chart" style={{ 'width': '100%', 'display':'none','flexFlow':'row','paddingRight':'2%','boxSizing':'border-box' }}>
-                <div style={{'flexBasis':'47%','marginRight':'6%'}}>
+                <div style={{'width':'47%','marginRight':'6%'}}>
                     <h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center' }}>17개 시도별 사업장 수</h2>
-                    <ChartBar id={1} item={{
+                    <BarChart item={{
                         keys: Object.keys(statsTop.sido), //['서울', '부산', '인천', '제주'],
                         title: '',
                         values: Object.values(statsTop.sido), //[12, 5, 3, 2],
                     }} />
                 </div>
-                <div style={{'flexBasis':'47%'}}>
+                <div style={{'width':'47%'}}>
                     <h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center' }}>사업자 업종별 사업장 비율</h2>
-                    <ChartBar id={2} item={{
+                    <BarChart item={{
                         keys: Object.keys(statsTop.category), //['제조', '도매', '소매', '운수'],
                         title: '',
                         values: Object.values(statsTop.category), //[3, 2, 5, 12],
@@ -244,7 +245,7 @@ class CompanyList extends Component {
                     <th className="text-center">사업장명</th>
                     <th className="text-center">주소</th>
                     <th className="text-center">위치</th>
-                    <th className="text-center btn-change-sort" onClick={this.handleSortToggle1} style={{'cursor': 'pointer'}} data-key="count_subscriber" data-value="{/* //FIXME {{ ($params['sort_value'] == 'desc' ? 'asc' : 'desc') }}*/}">사원수 <i className='fa fa-sort fa-sm'></i></th>
+                    <th className="text-center btn-change-sort" onClick={this.handleSortToggle1} style={{'cursor': 'pointer'}} data-key="count_subscriber">사원수 <i className='fa fa-sort fa-sm'></i></th>
                     <th className="text-center" onClick={this.handleSortToggle2} style={{'cursor': 'pointer'}}>총 급여액 <i className='fa fa-sort fa-sm'></i></th>
                     <th className="text-center" onClick={this.handleSortToggle3} style={{'cursor': 'pointer'}}>평균 급여액 <i className='fa fa-sort fa-sm'></i></th>
                     <th className="text-center">사업장업종</th>
