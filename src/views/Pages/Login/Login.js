@@ -44,7 +44,7 @@ class Login extends Component {
                                           </InputGroup>*/}
                                             <Row>
                                                 <Col xs="6">
-                                                    <a href={`http://api-research9.koreasouth.cloudapp.azure.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token`}
+                                                    <a href={`http://rsc9-auth.koreasouth.cloudapp.azure.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token`}
                                                        color="primary" className="px-4 btn btn-primary">로그인</a>
                                                 </Col>
                                                 {/*<Col xs="6" className="text-right">
