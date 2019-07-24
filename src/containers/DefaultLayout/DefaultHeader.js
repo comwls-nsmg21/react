@@ -2,23 +2,19 @@ import React, { Component } from 'react';
 import { DropdownMenu, DropdownToggle, Nav } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
+import { AppHeaderDropdown, AppSidebarToggler } from '@coreui/react';
 
-import logo from '../../assets/img/brand/logo.svg'
-import sygnet from '../../assets/img/brand/sygnet.svg'
-import avatar from '../../assets/img/avatars/6.jpg'
+import tdiLogo from '../../assets/img/brand/tdi_logo.png'
 
 const propTypes = {
   children: PropTypes.node,
 };
 
 const defaultProps = {};
-const URL = window.location.origin;
-
 class DefaultHeader extends Component {
   logOut = () => {
     localStorage.clear();
-    window.location.href = `http://rsc9-auth.koreasouth.cloudapp.azure.com/logout?redirect=${URL}`;
+    window.location.href = `http://rsc9-auth.koreasouth.cloudapp.azure.com/logout`;
     //window.location.reload();
 };
   render() {
@@ -29,15 +25,12 @@ class DefaultHeader extends Component {
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
-        <AppNavbarBrand
-          full={{ src: logo, width: 89, height: 25, alt: 'CoreUI Logo' }}
-          minimized={{ src: sygnet, width: 30, height: 30, alt: 'CoreUI Logo' }}
-        />
+        <a href="/" class="navbar-brand">관리자</a>
         <AppSidebarToggler className="d-md-down-none" display="lg" />
         <Nav className="ml-auto" navbar>
           <AppHeaderDropdown>
             <DropdownToggle nav>
-              <img src={avatar} className="img-avatar" alt="admin@bootstrapmaster.com" />
+              <img src={tdiLogo} className="img-avatar" alt="admin" />
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto', height: '400px' }}>
               <div className="dropdown-header text-center">
@@ -50,7 +43,7 @@ class DefaultHeader extends Component {
             </DropdownMenu>
           </AppHeaderDropdown>
         </Nav>
-        <AppAsideToggler className="d-md-down-none" />
+        {/*<AppAsideToggler className="d-md-down-none" />*/}
         {/*<AppAsideToggler className="d-lg-none" mobile />*/}
       </React.Fragment>
     );
