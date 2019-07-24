@@ -32,7 +32,7 @@ class DefaultHeader extends Component {
             <DropdownToggle nav>
               <img src={tdiLogo} className="img-avatar" alt="admin" />
             </DropdownToggle>
-            <DropdownMenu right style={{ right: 'auto', height: '400px' }}>
+            <DropdownMenu right style={{ right: 'auto', height: 'auto' }}>
               <div className="dropdown-header text-center">
                   <strong>관리자 님</strong>
               </div>
