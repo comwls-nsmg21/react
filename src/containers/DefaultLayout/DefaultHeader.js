@@ -25,7 +25,7 @@ class DefaultHeader extends Component {
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
-        <a href="/" class="navbar-brand">관리자</a>
+        <a href="/" className="navbar-brand">관리자</a>
         <AppSidebarToggler className="d-md-down-none" display="lg" />
         <Nav className="ml-auto" navbar>
           <AppHeaderDropdown>

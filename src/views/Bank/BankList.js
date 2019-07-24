@@ -1,11 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import axios from 'axios';
 
-
 import Const from '../Common/Const';
 import BankItem from "./BankItem";
 import BankListFilter from "./BankListFilter";
-import ChartLine from "../Chart/ChartLine";
+import LineChart from '../Common/Chart/LineChart';
 
 class BankList extends Component {
 
@@ -16,8 +15,6 @@ class BankList extends Component {
 			'banks.indexCom': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/banks/companies',
 			'banks.indexPvt': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/banks/personals',
 			'banks.indexSrv': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/banks/services',
-			//'banks.showStatsCom': '/api/banks/companies/stats',
-			//'banks.showStatsPvt': '/api/banks/personals/stats',
 			'banks.index': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/banks/services/stats',
 		};
 		this.banksKey = {
@@ -66,7 +63,6 @@ class BankList extends Component {
 		const req = this.getApi(); //console.log(req);
 		const reqBanks = req.keyParams.map(bank => bank.bankKey); //console.log(reqBanks);
 		axios.get(req.api, {
-			//params: { 'searchDate': date.getFullYear() + '-' + (date.getMonth() + 1) },
 			params: { banks: reqBanks },
 		}).then(res => { //console.log(res.data.data);
 			this.setState({ resBanks: res.data.data });
@@ -89,16 +85,19 @@ class BankList extends Component {
 		if(refresh) this.setState({ areaChart: ''});
 		const { resBanks } = this.state; //console.log(resBanks);
 		const { items, label } = resBanks;
-		//console.log(items.map(item => ( item.items.map(i => ( i.count )) )));
-		//console.log(Object.values(resBanks.stats).map(item => Object.values(item.item).map(i => i)));
-		const height = '50px';
-
-		this.setState({ areaChart: (this.state.areaChart !== '') ? '' : <ChartLine id={1} item={{
-			ids: items.map(item => item.title),
-			keys: label,
-			//values: items.map(item => ( item.items.map(i => ( i.count )) )),
-			values: items.map(item => ( item.items.map(i => ( i.count )) )),
-		}} height={height} /> });
+		const chartItem = items.map(val => {
+			const cItem = {
+				name: val.title,
+				data: val.items.map(cnt => cnt.count),
+			}
+			return cItem
+		})
+		this.setState({ areaChart: (this.state.areaChart !== '') ? '' : <LineChart 
+			item = {{
+				keys: label,
+				values: chartItem
+			}} />
+		});
 	};
 	
 	shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -109,7 +108,6 @@ class BankList extends Component {
 		const { areaChart, resBanks } = this.state;
 		//if((resBanks.label.length === 0) || (Object.keys(resBanks).length === 0)) return(<Fragment> </Fragment>);
 		if(resBanks.label.length === 0) return(<Fragment> </Fragment>);
-
 		const contentHead = (
 			<div className="card-header">
 				<div className="float-left mt-2"><i className="fa fa-building"> </i>개인뱅킹</div>
@@ -119,10 +117,6 @@ class BankList extends Component {
 			</div>
 
 		);
-
-		/* const items = resBanks.items.map((bank, idx) => (
-			<BankItem key={idx} item={bank} page={this.props.page} />
-		)); */
 
 		//기업정보 조회서비스/은행트랜드/서비스 앱 뱅킹 구현 영역
 		let banksCount = {};

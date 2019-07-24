@@ -3,11 +3,10 @@ import axios from 'axios';
 
 import CompanyItem from "./CompanyItem";
 import CompanyListFilter from "./CompanyListFilter";
-import ChartBar from "../Chart/ChartBar";
-import ChartPie from "../Chart/ChartPie";
 import $ from 'jquery'
 import ReactPaginate from 'react-paginate';
 import BarChart from '../Common/Chart/BarChart';
+import PieChart from '../Common/Chart/PieChart';
 
 
 class CompanyList extends Component {
@@ -174,31 +173,25 @@ class CompanyList extends Component {
 
         const charts = ((isNotEmpty) && (this.isPageCom())) && (
             <div id="area_chart" style={{'width':'100%', 'display':'none','flexFlow':'row','paddingRight':'2%','boxSizing':'border-box', 'marginBottom': '2%', 'marginTop': '40px', }}>
-                <div style={{'flexBasis':'30%'}}>
+                <div style={{'width':'30%'}}>
                     <h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center' }}>국민연금 가입자수 기준 사업장 수</h2>
-                    <ChartPie id={1} item={{
-                        keys: statsEmpl.map(obj => (obj.label)).reverse(),
-                        legend: { position: 'right' },
-                        title: '국민연금 가입자수 기준 사업장 수',
-                        values: statsEmpl.map(obj => (obj.count)).reverse(),
+                    <PieChart item={{
+                        values: statsEmpl.map((val, idx) => ([val.label, val.count, (idx===0 ? true : false), (idx===0 ? true : null)]))
                     }} />
                 </div>
-                <div style={{'flexBasis':'30%','marginRight':'5%','marginLeft':'5%'}}>
+                <div style={{'width':'30%','marginRight':'5%','marginLeft':'5%'}}>
                     <h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center'  }}>고지금액 기준 사업장 수</h2>
-                    <ChartPie id={2} item={{
-                        keys: statsAmount.map(obj => (obj.label)).reverse(),
-                        legend: { position: 'right' },
-                        title: '고지금액 기준 사업장 수',
-                        values: statsAmount.map(obj => (obj.count)).reverse(),
+                    <PieChart item={{
+                        values: statsAmount.map((val, idx) => ([val.label, val.count, (idx===0 ? true : false), (idx===0 ? true : null)]))
                     }} />
                 </div>
-                <div style={{'flexBasis':'30%'}}>
+                <div style={{'width':'30%'}}>
                     <h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center'}}>업종 기준 사업장</h2>
-                    <ChartBar id={3} item={{
+                    <BarChart item={{
                         keys: Object.keys(statsCat).reverse(),
-                        title: '업종 기준 사업장 수',
                         values: Object.values(statsCat).reverse(),
-                    }} />
+                    }}
+                    />
                 </div>
             </div>
         );
