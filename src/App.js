@@ -12,10 +12,10 @@ const DefaultLayout = Loadable({
   loading
 });
 // Pages
-const Login = Loadable({
-  loader: () => import('./views/Pages/Login'),
-  loading
-});
+// const Login = Loadable({
+//   loader: () => import('./views/Pages/Login'),
+//   loading
+// });
 const Register = Loadable({
   loader: () => import('./views/Pages/Register'),
   loading
@@ -30,6 +30,10 @@ const Page500 = Loadable({
   loader: () => import('./views/Pages/Page500'),
   loading
 })
+
+const URL = window.location.origin;
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+const REDIRECT_URI = `${URL}/callback`;
 
 class App extends Component {
   constructor(props) {
@@ -63,7 +67,10 @@ class App extends Component {
           <Route exact path="/404" name="Page 404" component={Page404}/>
           <Route exact path="/500" name="Page 500" component={Page500}/>
           {!login ?
-              <Route exact path="/login" name="Login Page" component={Login}/>
+              <Route exact path="/login" name="Login Page" component={() => { 
+                window.location.href = `http://rsc9-auth.koreasouth.cloudapp.azure.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token`; 
+                return null;
+           }}/>
               :
               <Route path="/" name="Home" component={DefaultLayout}/>
           }

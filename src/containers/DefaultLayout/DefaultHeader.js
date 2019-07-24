@@ -13,11 +13,13 @@ const propTypes = {
 };
 
 const defaultProps = {};
+const URL = window.location.origin;
 
 class DefaultHeader extends Component {
   logOut = () => {
     localStorage.clear();
-    window.location.reload();
+    window.location.href = `http://rsc9-auth.koreasouth.cloudapp.azure.com/logout?redirect=${URL}`;
+    //window.location.reload();
 };
   render() {
 
