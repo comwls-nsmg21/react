@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 // import { renderRoutes } from 'react-router-config';
 import Loadable from 'react-loadable';
+import axios from 'axios';
 import './App.scss';
+
 
 const loading = () => <div className="animated fadeIn pt-3 text-center"><div className="sk-spinner sk-spinner-pulse"></div></div>;
 
@@ -41,6 +43,24 @@ class App extends Component {
     this.state = {
         token: '',
     };
+  }
+  componentDidMount(){
+    axios.get('http://rsc9-api.koreasouth.cloudapp.azure.com/api/user', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    })
+    .then(function (response) {
+      console.log(response);
+      if(response.status === 401){
+        localStorage.clear();
+        window.location.href = `http://rsc9-auth.koreasouth.cloudapp.azure.com/logout`;
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
   componentWillMount() {
     const url = window.location.href;
