@@ -3,7 +3,6 @@ import axios from 'axios/index';
 import * as moment from "moment/moment";
 import Const from "../Common/Const";
 import NaverBankMonth from "./NaverBankMonth"
-import ChartLine from "../Chart/ChartLine"
 import LineChart from "../Common/Chart/LineChart"
 
 class NaverBank extends Component {
