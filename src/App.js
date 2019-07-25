@@ -52,7 +52,7 @@ class App extends Component {
       }
     })
     .then(function (response) {
-      console.log(response);
+      //console.log(response);
       if(response.status === 401){
         localStorage.clear();
         window.location.href = `http://rsc9-auth.koreasouth.cloudapp.azure.com/logout`;

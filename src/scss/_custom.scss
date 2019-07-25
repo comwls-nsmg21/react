@@ -211,6 +211,11 @@ $screen-xl-min: 1200px;
   display: inline-block;
   width: 780px;
   height: 400px;
+  text-align: center;
+  h2 {
+    font-size:12px;
+    font-weight: 800
+  }
 }
 
 //로딩

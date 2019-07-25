@@ -70,9 +70,11 @@ class NaverBankMonth extends Component {
                     <hr style={{'display': (!this.props.isToggle) ? 'none' : 'block'}} />
                     <div className="wrap-chart" style={{'display': (!this.props.isToggle) ? 'none' : 'block'}}>
                         <div className="chart-area">
+                            <h2>모바일 월간조회수</h2>
                             {areaChartM}
                         </div>
                         <div className="chart-area">
+                            <h2>웹 월간조회수</h2>
                             {areaChartW}
                         </div>
                     </div>

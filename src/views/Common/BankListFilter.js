@@ -84,7 +84,6 @@ class BankListFilter extends Component {
     };
 
     render() { //console.log(this.state.banks);
-        console.log(Const.BANKS.PAGE.NAVER)
         const isNotEmpty = (this.state.banks.length > 0);
         const banks = (isNotEmpty) && this.state.banks.map((bank, idx) => (
             <li key={idx}>

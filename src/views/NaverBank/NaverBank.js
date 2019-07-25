@@ -4,6 +4,7 @@ import * as moment from "moment/moment";
 import Const from "../Common/Const";
 import NaverBankMonth from "./NaverBankMonth"
 import ChartLine from "../Chart/ChartLine"
+import LineChart from "../Common/Chart/LineChart"
 
 class NaverBank extends Component {
     constructor(props) {
@@ -90,7 +91,7 @@ class NaverBank extends Component {
                 toDate: moment(eDate).format('YYYY-MM-DD'),
                 bankIds: reqBanks
             },
-        }).then(res => { console.log(res.data.data);
+        }).then(res => { //console.log(res.data.data);
             res.data.data.forEach((val) => {
                 this.setState({
                     labels: Object.values(val.items).map(labels => labels.label),
@@ -118,28 +119,36 @@ class NaverBank extends Component {
         if(refresh) this.setState({ areaChartM: '', areaChartW: ''});
         this.forceUpdate();
         const { resBanks, labels } = this.state;
+        const chartItemM = resBanks.map(val => {
+			const cItem = {
+				name: val.title,
+                data: Object.values(val.items).map(cnt => cnt.mobileCount)
+			}
+			return cItem
+        })
+        const chartItemW = resBanks.map(val => {
+			const cItem = {
+				name: val.title,
+                data: Object.values(val.items).map(cnt => cnt.pcCount)
+			}
+			return cItem
+		})  
         this.setState({
-            areaChartM: <ChartLine id={1} item={{
-                title: '모바일 월간조회수',
-                ids: resBanks.map(val=>val.title),
-                keys: labels.map(val=>val),
-                values: resBanks.map(val => Object.values(val.items).map(item => item.mobileCount))
+            areaChartM: <LineChart item = {{
+				keys: labels,
+				values: chartItemM
             }} />,
-            areaChartW: <ChartLine id={2} item={{
-                title: '웹 월간조회수',
-                ids: resBanks.map(val=>val.title),
-                keys: labels.map(val=>val),
-                values: resBanks.map(val => Object.values(val.items).map(item => item.pcCount))
+            areaChartW: <LineChart item = {{
+				keys: labels,
+				values: chartItemW
             }} />
         });
-        console.log(this.state.areaChartM)
     };
     toggleHidden = () => {
         this.setState({
             isToggle: !this.state.isToggle
         })
         this.setChart(true);
-        console.log(this.setChart(true))
     };
 
     handleChangeStart(date) {
