@@ -19,6 +19,7 @@ class CompanyItem extends Component {
 
 		const { idx, item, page } = this.props;
 		const { company, nps } = item; //console.log(company.geo_point);
+		const typeNull = "null";
 		//console.log(item.salary.avg)
 		const content = (
 			<tr className="text-layout">
@@ -30,7 +31,7 @@ class CompanyItem extends Component {
 					{ company.name }
 				</td>
 				<td className="text-left">
-					{ (typeof company.address === "null") ? company.type_code : company.address }
+					{ (typeof company.address === typeNull) ? company.type_code : company.address }
 				</td>
 				<td className="text-center">
 					{ ((typeof company.geo_point === "object") && ((company.geo_point.lat > 0) && (company.geo_point.lon > 0))) && <a href={`http://map.daum.net/link/map/` + encodeURI(company.name) + `,` + company.geo_point.lat + `,` + company.geo_point.lon} rel="noopener noreferrer"><i className="fa fa-map-marker"> </i> 지도</a> }
