@@ -1,41 +1,42 @@
-// Here you can add other styles
-// Small tablets and large smartphones (landscape view)
-$screen-sm-min: 576px;
-
-// Small tablets (portrait view)
-$screen-md-min: 768px;
-
-// Tablets and small desktops
-$screen-lg-min: 992px;
-
-// Large tablets and desktops
-$screen-xl-min: 1200px;
-// Small devices
-@mixin sm {
-  @media (max-width: #{$screen-sm-min}) {
-    @content;
-  }
+$screen-xs-max: 320px;
+$screen-ss-max: 414px;
+$screen-sm-max: 576px;
+$screen-md-max: 768px;
+$screen-lg-max: 992px;
+$screen-xl-max: 1200px;
+@mixin w320 {
+   @media (max-width: #{$screen-xs-max}) {
+      @content;
+   }
+}
+@mixin w414 {
+   @media (max-width: #{$screen-ss-max}) {
+      @content;
+   }
 }
 
-// Medium devices
-@mixin md {
-  @media (max-width: #{$screen-md-min}) {
-    @content;
-  }
+@mixin w576 {
+   @media (max-width: #{$screen-sm-max}) {
+      @content;
+   }
 }
 
-// Large devices
-@mixin lg {
-  @media (max-width: #{$screen-lg-min}) {
-    @content;
-  }
+@mixin w768 {
+   @media (max-width: #{$screen-md-max}) {
+      @content;
+   }
 }
 
-// Extra large devices
-@mixin xl {
-  @media (max-width: #{$screen-xl-min}) {
-    @content;
-  }
+@mixin w992 {
+   @media (max-width: #{$screen-lg-max}) {
+      @content;
+   }
+}
+
+@mixin w1200 {
+   @media (max-width: #{$screen-xl-max}) {
+      @content;
+   }
 }
 // Header
 .dropdown-item {
@@ -231,17 +232,17 @@ $screen-xl-min: 1200px;
 .search-filter {
   overflow: hidden;
   max-width: 720px;
-  @include xl {
+  @include w1200 {
     width: 70%;
     padding-bottom: 40px;
   }
-  @include sm {
+  @include w576 {
     width: 100%
   }
 
   .search-area {
     float: left;
-    @include xl {
+    @include w1200 {
       width: 100%;
     }
 
@@ -250,7 +251,7 @@ $screen-xl-min: 1200px;
       height: 40px;
       margin-bottom: 0;
       table-layout: fixed;
-      @include xl {
+      @include w1200 {
         width: 100%;
       }
 
@@ -258,7 +259,7 @@ $screen-xl-min: 1200px;
         display: table-cell;
         width: 80px;
         vertical-align: middle;
-        @include xl {
+        @include w1200 {
           &.text-center {
             text-align: left !important;
           }
@@ -268,12 +269,12 @@ $screen-xl-min: 1200px;
       dd {
         display: table-cell;
         vertical-align: middle;
-        @include sm {
+        @include w576 {
           button {
             width: calc(100% - 23px) !important;
           }
         }
-        @include xl {
+        @include w1200 {
           input[type="number"] {
             width: calc(50% - 35px) !important;
           }
