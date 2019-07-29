@@ -1,27 +1,19 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import BarChart from '../Common/Chart/BarChart'
-import PieChart from '../Common/Chart/PieChart';
+import BarChart from '../Common/Chart/BarChart';
+//import PieChart from '../Common/Chart/PieChart';
 
 class Dashboard extends Component {
 
     constructor(props) {
         super(props);
         this.api = {
-            'coms.indexStatsAmount': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/companies/amount/stats',
-            'coms.indexStatsCat': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/companies/category/stats',
-            'coms.indexStatsEmpl': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/companies/employee/stats',
-            'coms.indexStatsTop': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/companies/top/stats',
-            'banks.indexStatsLocation': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/banks/location/lives'
+            'banks.stats':'http://rsc9-api.koreasouth.cloudapp.azure.com/api/bank/dashboard',
         };
     }
 
     state = {
-        statsAmount: [],
-        statsCat: {},
-        statsEmpl: [],
-        statsTop: {},
-        statsLocation: {},
+        statsBanks:{},
     };
 
     componentDidMount() {
@@ -30,19 +22,17 @@ class Dashboard extends Component {
     };
 
     getStats = () => {
-        const getAmount = () => axios.get(this.api["coms.indexStatsAmount"]);
-        const getCat = () => axios.get(this.api["coms.indexStatsCat"]);
-        const getEmpl = () => axios.get(this.api["coms.indexStatsEmpl"]);
-        const getLocation = () => axios.get(this.api["banks.indexStatsLocation"]);
-        axios.all([getAmount(), getCat(), getEmpl(), getLocation()]).then(axios.spread((resAmount, resCat, resEmpl, resLocation) => { //console.log(resEmpl.data.data);
-            this.setState({
-                statsAmount: resAmount.data.data,
-                statsCat: resCat.data.data,
-                statsEmpl: resEmpl.data.data,
-                statsLocation: resLocation.data.data
-            });
-        })).catch(err => {
-            console.log(err);
+        axios.get(this.api["banks.stats"], {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        })
+        .then(resBanks => { console.log(resBanks);
+            this.setState({statsBanks: resBanks.data});
+        }).catch(err => {
+            console.log(err)
+        }).finally(() => { /* console.log(this.state) */
         });
     };
 
@@ -61,91 +51,40 @@ class Dashboard extends Component {
 
     render() {
 
-        const {statsAmount, statsCat, statsEmpl, statsTop, statsLocation} = this.state;
-        const isNotEmpty = (((statsAmount.length > 0) && (Object.keys(statsCat).length > 0) && (statsEmpl.length > 0) && (Object.keys(statsTop).length > 0)) && (Object.keys(statsLocation).length > 0));
+        const {statsBanks} = this.state;
+        const { personal, company } = statsBanks
+        const isNotEmpty = (Object.values(statsBanks).length > 0);
         
         const charts = (isNotEmpty) && (
             <div className="animated fadeIn">
                 <div className="row">
-
-                    <div className="col-sm-6 col-md-4">
+                    <div className="col-sm-12 col-md-6">
                         <div className="card">
                             <div className="card-header">
-                                Top 100 기업 업종별 사업장 비율
+                                <i className="nav-icon fa fa-user-o"></i>개인뱅킹 앱순위
                             </div>
                             <div className="card-body">
                                 <BarChart item={{
-                                    keys: Object.keys(statsTop.category),
-                                    values: Object.values(statsTop.category),
+                                   keys: personal.map(val => val.company),
+                                   values: personal.map(val => val.count),
                                 }} />
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-6 col-md-4">
+                    <div className="col-sm-12 col-md-6">
                         <div className="card">
                             <div className="card-header">
-                                Top 100 사업장 위치
+                                <i className="nav-icon fa fa-building-o"></i>기업뱅킹 앱순위
                             </div>
                             <div className="card-body">
                                 <BarChart item={{
-                                    keys: Object.keys(statsTop.sido),
-                                    values: Object.values(statsTop.sido),
+                                   keys: company.map(val => val.company),
+                                   values: company.map(val => val.count),
                                 }} />
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-6 col-md-4">
-                        <div className="card">
-                            <div className="card-header">
-                            국민연금 가입자수 기준 사업장 수
-                            </div>
-                            <div className="card-body">
-                                <PieChart item={{
-                                    values: statsEmpl.map((val, idx) => ([val.label, val.count, (idx===0 ? true : false), (idx===0 ? true : null)]))
-                                }} />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-6 col-md-4">
-                        <div className="card">
-                            <div className="card-header">
-                                고지금액 기준 사업장 수
-                            </div>
-                            <div className="card-body">
-                                <PieChart item={{
-                                    values: statsAmount.map((val, idx) => ([val.label, val.count, (idx===0 ? true : false), (idx===0 ? true : null)]))
-                                }} />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-6 col-md-4">
-                        <div className="card">
-                            <div className="card-header">
-                                업종 기준 사업장
-                            </div>
-                            <div className="card-body">
-                                <BarChart item={{
-                                    keys: Object.keys(statsCat).reverse(),
-                                    values: Object.values(statsCat).reverse(),
-                                }}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-6 col-md-4">
-                        <div className="card">
-                            <div className="card-header">
-                                위치기반 일별 라이브
-                            </div>
-                            <div className="card-body">
-                                <BarChart item={{
-                                    keys: Object.keys(statsLocation.label).map(key => statsLocation.label[key]),
-                                    values: Object.values(statsLocation.total)
-                                }}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
 

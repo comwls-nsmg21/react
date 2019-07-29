@@ -16,6 +16,10 @@ class BankList extends Component {
 			'banks.indexPvt': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/banks/personals',
 			'banks.indexSrv': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/banks/services',
 			'banks.index': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/banks/services/stats',
+
+			'banks.first': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps/banks/personal',
+			'banks.getLists': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps/banks/lists'
+			
 		};
 		this.banksKey = {
 			company: [],
@@ -35,7 +39,7 @@ class BankList extends Component {
 
 	componentDidMount() {
 		let pm = new Promise(resolve => {
-			this.setState({ reqBanks: Object.values(Const.BANKS.NAME).map(val => val)/*[Const.BANKS.NAME.KB, Const.BANKS.NAME.KAKAO, Const.BANKS.NAME.SHINHAN]*/ });
+			this.setState({ reqBanks: Object.values(Const.BANKS.NAME).map(val => val)});
 			resolve();
 		});
 		pm.then(() => { this.getBanks(); });
@@ -43,16 +47,26 @@ class BankList extends Component {
 
 	getApi = () => { //console.log('getApi'); console.log(this.banksKey);
 		let out = {
-			api: this.api["banks.indexPvt"],
+			api: this.api["banks.first"],
 			keyParams: this.banksKey.personal.filter(bank => (this.state.reqBanks.includes(bank.bankName))),
 		};
 		return out;
 	};
 
 	getBanks = () => {
+		// if(this.banksKey.company.length === 0) {
+		// 	axios.get(this.api["banks.getKeys"], {
+		// 	}).then(res => { this.banksKey = res.data.data; console.log(res.data.data)
+		// 	}).catch(err => { console.log(err);
+		// 	}).finally(() => { this.getBanks__(); });
+		// } else this.getBanks__();
 		if(this.banksKey.company.length === 0) {
-			axios.get(this.api["banks.getKeys"], {
-			}).then(res => { this.banksKey = res.data.data;
+			axios.get(this.api["banks.getLists"], {
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + localStorage.getItem('token')
+				}
+			}).then(res => { this.banksKey = res.data; console.log(res.data)
 			}).catch(err => { console.log(err);
 			}).finally(() => { this.getBanks__(); });
 		} else this.getBanks__();
@@ -63,9 +77,13 @@ class BankList extends Component {
 		const req = this.getApi(); //console.log(req);
 		const reqBanks = req.keyParams.map(bank => bank.bankKey); //console.log(reqBanks);
 		axios.get(req.api, {
-			params: { banks: reqBanks },
-		}).then(res => { //console.log(res.data.data);
-			this.setState({ resBanks: res.data.data });
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + localStorage.getItem('token')
+			},
+			params: { bankIds: reqBanks },
+		}).then(res => { console.log(res.data);
+			this.setState({ resBanks: res.data });
 		}).catch(err => { console.log(err);
 		}).finally(() => { (this.state.areaChart !== '') && this.setChart(true); });
 	};
