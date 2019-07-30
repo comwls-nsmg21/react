@@ -85,7 +85,7 @@ class CompanyList extends Component {
         pm.then(() => { this.getComs(); });
     };
 
-    isPageCom = () => (this.props.location.pathname === "/Company");
+    isPageCom = () => (this.props.location.pathname === "/Company/Company");
 
 
 

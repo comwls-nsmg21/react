@@ -6,6 +6,25 @@ export default {
       icon: 'icon-speedometer',
     },
     {
+      title: true,
+      name: '위치기반 데이터',
+      wrapper: {            // optional wrapper object
+        element: '',        // required valid HTML5 element tag
+        attributes: {}        // optional valid JS object with JS API naming ex: { className: "my-class", style: { fontFamily: "Verdana" }, id: "my-id"}
+      },
+      class: ''             // optional class names space delimited list for title item ex: "text-center"
+    },
+    {
+      name: '기업 분포',
+      url: '/Location/Company',
+      icon: 'fa fa-map-o',
+    },
+    {
+      name: '잠재고객 분포',
+      url: '/Location/BankUser',
+      icon: 'fa fa-map-o',
+    },
+    {
       name: '위치기반 라이브',
       url: '/LocationLive',
       icon: 'fa fa-building',
@@ -21,18 +40,18 @@ export default {
     },
     {
       name: 'Top 100',
-      url: '/CompanyTop',
+      url: '/Company/CompanyTop',
       icon: 'fa fa-building',
     },
     {
       name: '사업장 검색',
-      url: '/Company',
+      url: '/Company/Company',
       icon: 'fa fa-building',
     },
     {
       name: '위치 검색',
-      url: '/Locations',
-      icon: 'fa fa-building',
+      url: '/Company/Locations',
+      icon: 'fa fa-map-o',
     },
     {
       title: true,

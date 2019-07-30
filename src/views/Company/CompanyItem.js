@@ -23,7 +23,7 @@ class CompanyItem extends Component {
 		//console.log(item.salary.avg)
 		const content = (
 			<tr className="text-layout">
-				{ (page !== "/Company") && (<td className="text-center">{ idx }</td>) }
+				{ (page !== "/Company/Company") && (<td className="text-center">{ idx }</td>) }
 				{/* <td className="text-center">
 					{ (company.shape === 1) ? <span className="badge badge-primary">법인</span> : <span className="badge badge-warning">개인</span> }
 				</td> */}
