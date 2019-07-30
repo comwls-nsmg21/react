@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
-import ReactHighcharts from 'react-highcharts';
+import Highcharts from 'highcharts';
 
+const SELECTOR_PREFIX = 'LineChart_';
 class LineChart extends Component {
+    constructor(props) {
+        super(props);
+        this.selector = SELECTOR_PREFIX + this.props.id;
+    }
     static defaultProps = {
         id: 0,
         item: {
@@ -24,10 +29,12 @@ class LineChart extends Component {
             }],
         },
     };
-    render() {
+    componentDidMount(){
+        this.barChart();
+    };
+    barChart = () => {
         const { keys, values } = this.props.item;
-        console.log(values)
-        const config = {
+        Highcharts.chart(this.selector , {
             title: false,
         
             subtitle: false,
@@ -73,10 +80,12 @@ class LineChart extends Component {
             credits: {
                 enabled: false,
             }
-        };
+        });
+    };
+    render() {
         return (
             <>
-                <ReactHighcharts config = {config}></ReactHighcharts>
+                <div id={this.selector}></div>
             </>
         );
     }

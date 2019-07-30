@@ -175,19 +175,19 @@ class CompanyList extends Component {
             <div id="area_chart" style={{'width':'100%', 'display':'none','flexFlow':'row','paddingRight':'2%','boxSizing':'border-box', 'marginBottom': '2%', 'marginTop': '40px', }}>
                 <div style={{'width':'30%'}}>
                     <h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center' }}>국민연금 가입자수 기준 사업장 수</h2>
-                    <PieChart item={{
+                    <PieChart id={1} item={{
                         values: statsEmpl.map((val, idx) => ([val.label, val.count, (idx===0 ? true : false), (idx===0 ? true : null)]))
                     }} />
                 </div>
                 <div style={{'width':'30%','marginRight':'5%','marginLeft':'5%'}}>
                     <h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center'  }}>고지금액 기준 사업장 수</h2>
-                    <PieChart item={{
+                    <PieChart id={2} item={{
                         values: statsAmount.map((val, idx) => ([val.label, val.count, (idx===0 ? true : false), (idx===0 ? true : null)]))
                     }} />
                 </div>
                 <div style={{'width':'30%'}}>
                     <h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center'}}>업종 기준 사업장</h2>
-                    <BarChart item={{
+                    <BarChart id={3} item={{
                         keys: Object.keys(statsCat).reverse(),
                         values: Object.values(statsCat).reverse(),
                     }}
@@ -200,7 +200,7 @@ class CompanyList extends Component {
             <div id="area_chart" style={{ 'width': '100%', 'display':'none','flexFlow':'row','paddingRight':'2%','boxSizing':'border-box' }}>
                 <div style={{'width':'47%','marginRight':'6%'}}>
                     <h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center' }}>17개 시도별 사업장 수</h2>
-                    <BarChart item={{
+                    <BarChart id={1} item={{
                         keys: Object.keys(statsTop.sido), //['서울', '부산', '인천', '제주'],
                         title: '',
                         values: Object.values(statsTop.sido), //[12, 5, 3, 2],
@@ -208,7 +208,7 @@ class CompanyList extends Component {
                 </div>
                 <div style={{'width':'47%'}}>
                     <h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center' }}>사업자 업종별 사업장 비율</h2>
-                    <BarChart item={{
+                    <BarChart id={2} item={{
                         keys: Object.keys(statsTop.category), //['제조', '도매', '소매', '운수'],
                         title: '',
                         values: Object.values(statsTop.category), //[3, 2, 5, 12],

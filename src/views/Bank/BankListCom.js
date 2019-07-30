@@ -1,24 +1,18 @@
 import React, {Component, Fragment} from 'react';
 import axios from 'axios';
-
-
 import Const from '../Common/Const';
 import BankItem from "./BankItem";
 import BankListFilter from "./BankListFilter";
-import ChartLine from "../Chart/ChartLine";
+import LineChart from '../Common/Chart/LineChart';
+//import ChartLine from "../Chart/ChartLine";
 
 class BankListCom extends Component {
 
     constructor(props) {
         super(props);
         this.api = {
-            'banks.getKeys': 'http://pinfin-dev.koreasouth.cloudapp.azure.com//api/banks',
-            'banks.indexCom': 'http://pinfin-dev.koreasouth.cloudapp.azure.com//api/banks/companies',
-            'banks.indexPvt': 'http://pinfin-dev.koreasouth.cloudapp.azure.com//api/banks/personals',
-            'banks.indexSrv': 'http://pinfin-dev.koreasouth.cloudapp.azure.com//api/banks/services',
-            //'banks.showStatsCom': '/api/banks/companies/stats',
-            //'banks.showStatsPvt': '/api/banks/personals/stats',
-            'banks.index': 'http://pinfin-dev.koreasouth.cloudapp.azure.com//api/banks/services/stats',
+            'banks.first': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps/banks/company',
+			'banks.getLists': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps/banks/lists'
         };
         this.banksKey = {
             company: [],
@@ -29,125 +23,172 @@ class BankListCom extends Component {
 
     state = {
         areaChart: '',
-        reqBanks: [],
-        resBanks: {
-            items: [],
-            label: [],
-        },
+		reqBanks: [],
+		resBanks: {
+			data: {},
+			grapf: {},
+			head:[],
+			issue:{},
+			ranking: [],
+			total: [],
+		},
+		isToggle: true
     };
 
     componentWillMount() {
         let pm = new Promise(resolve => {
-            this.setState({ reqBanks: Object.values(Const.BANKS.NAME).map(val => val)/*[Const.BANKS.NAME.KB, Const.BANKS.NAME.SHINHAN, Const.BANKS.NAME.WOORI]*/ });
-            resolve();
-        });
-        pm.then(() => { this.getBanks(); });
+			this.setState({ reqBanks: Object.values(Const.BANKS.NAME).map(val => val)});
+			resolve();
+		});
+		pm.then(() => { this.getBanks(); });
     };
 
     getApi = () => { //console.log('getApi'); console.log(this.banksKey);
-        let out = {
-            api: this.api["banks.indexCom"],
-            keyParams: this.banksKey.company.filter(bank => (this.state.reqBanks.includes(bank.bankName))),
-            //keyParams: this.banksKey.personal.filter(bank => (this.state.reqBanks.includes(bank.bankName))),
-        }
-        return out;
+    let out = {
+        api: this.api["banks.first"],
+        keyParams: this.banksKey.personal.filter(bank => (this.state.reqBanks.includes(bank.bankName))),
+    };
+    return out;
     };
 
     getBanks = () => {
         if(this.banksKey.company.length === 0) {
-            axios.get(this.api["banks.getKeys"], {
-            }).then(res => { this.banksKey = res.data.data;
-            }).catch(err => { console.log(err);
-            }).finally(() => { this.getBanks__(); });
-        } else this.getBanks__();
+			axios.get(this.api["banks.getLists"], {
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + localStorage.getItem('token')
+				}
+			}).then(res => { this.banksKey = res.data; //console.log(res.data)
+			}).catch(err => { console.log(err);
+			}).finally(() => { this.getBanks__(); });
+		} else this.getBanks__();
     };
 
     getBanks__ = () => {
         //let date = new Date();
-        const req = this.getApi(); //console.log(req);
-        const reqBanks = req.keyParams.map(bank => bank.bankKey); //console.log(reqBanks);
-        axios.get(req.api, {
-            //params: { 'searchDate': date.getFullYear() + '-' + (date.getMonth() + 1) },
-            params: { banks: reqBanks },
-        }).then(res => { //console.log(res.data.data);
-            this.setState({ resBanks: res.data.data });
-        }).catch(err => { console.log(err);
-        }).finally(() => { (this.state.areaChart !== '') && this.setChart(true); });
+		const req = this.getApi(); //console.log(req);
+		const reqBanks = req.keyParams.map(bank => bank.bankKey); //console.log(reqBanks);
+		axios.get(req.api, {
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': 'Bearer ' + localStorage.getItem('token')
+			},
+			params: { bankIds: reqBanks },
+		}).then(res => { //console.log(res.data);
+			this.setState({ resBanks: res.data });
+		}).catch(err => { console.log(err);
+		}).finally(() => { this.setChart(true) });
     };
 
     handleFilter = (conds) => { //console.log(conds);
         const reqFilterConds = (conds.length > 0) && conds.filter(cond => (
-            (Object.values(cond)[0] === true)
-        )); //console.log(reqFilterConds);
-        let pm = new Promise(resolve => {
-            this.setState({ reqBanks: reqFilterConds.map(cond => Object.keys(cond)).flat() });
-            resolve();
-        });
-        pm.then(() => { this.getBanks(); });
+			(Object.values(cond)[0] === true)
+		)); //console.log(reqFilterConds);
+		let pm = new Promise(resolve => {
+			this.setState({ reqBanks: reqFilterConds.map(cond => Object.keys(cond)).flat() });
+			resolve();
+		});
+		pm.then(() => { this.getBanks(); });
     };
 
     setChart = (refresh = false) => {
         if(refresh) this.setState({ areaChart: ''});
-        const { resBanks } = this.state; //console.log(resBanks);
-        const { items, label } = resBanks;
-        //console.log(items.map(item => ( item.items.map(i => ( i.count )) )));
-        //console.log(Object.values(resBanks.stats).map(item => Object.values(item.item).map(i => i)));
-        const height = '50px';
-
-        this.setState({ areaChart: (this.state.areaChart !== '') ? '' : <ChartLine id={1} item={{
-                ids: (this.props.page === Const.BANKS.PAGE.SERVICE) ? Object.values(resBanks.stats).map(item => item.bankName) : items.map(item => item.title),
-                keys: label,
-                //values: items.map(item => ( item.items.map(i => ( i.count )) )),
-                values: (this.props.page === Const.BANKS.PAGE.SERVICE) ? Object.values(resBanks.stats).map(item => Object.values(item.item).map(i => i)) : items.map(item => ( item.items.map(i => ( i.count )) )),
-            }} height={height} /> });
+		const { resBanks } = this.state; //console.log(resBanks);
+		const { data, head } = resBanks;
+		const keys = head.map(val=> val.month);
+		let values = [];
+		for(let key in data) {
+			const aaa = {
+				name: key,
+				data: data[key].map(val => val.count)
+			}
+			values.push(aaa)
+		}
+		this.setState({
+			areaChart: <LineChart id={1} item={{
+				keys: keys,
+				values: values
+			}} />
+		})
     };
+    toggleHidden = () => {
+		this.setState({
+			isToggle: !this.state.isToggle
+		})
+	};
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         return nextState !== this.state;
     }
 
     render() { //console.log('render'); //console.log(this.state);
-        console.log(this.props.location.key)
-        console.log(Const.BANKS.PAGE.SERVICE)
         const { areaChart, resBanks } = this.state;
+        const total = resBanks.total;
+		const dataEmpty = Object.keys(resBanks.data).length > 0;
         //if((resBanks.label.length === 0) || (Object.keys(resBanks).length === 0)) return(<Fragment> </Fragment>);
-        if(resBanks.label.length === 0) return(<Fragment> </Fragment>);
+        //if(resBanks.label.length === 0) return(<Fragment> </Fragment>);
 
         const contentHead = (
             <div className="card-header">
                 <div className="float-left mt-2"><i className="fa fa-building"> </i>기업 뱅킹</div>
                 <div className="float-right">
-                    <button	className="btn btn-outline-primary" style={{ width: '120px' }} onClick={this.setChart}>그래프 보기</button>
+                <button	className="btn btn-outline-primary" style={{ width: '120px' }} onClick={this.toggleHidden.bind(this)}>그래프 보기</button>
                 </div>
             </div>
         );
 
-        /* const items = resBanks.items.map((bank, idx) => (
-            <BankItem key={idx} item={bank} page={this.props.page} />
-        )); */
-
         //기업정보 조회서비스/은행트랜드/서비스 앱 뱅킹 구현 영역
-        let banksCount = {};
-        resBanks.items.map(bank => (bank.bankName)).forEach(function(i) { banksCount[i] = (banksCount[i] || 0) + 1; }); //console.log(banksCount);
-        let bankNamePrev = '';
-        const items = resBanks.items.map((bank, idx) => {
-            const isBankNameInit = (bankNamePrev !== bank.bankName);
-            bankNamePrev = bank.bankName;
-            const bCount = (isBankNameInit) ? banksCount[bank.bankName] : 0; //console.log(bCount);
-            return <BankItem key={idx} item={bank} page={this.props.location} rowspan={ bCount } />
-        }); //console.log(resBanks);
+        const resRank = resBanks.ranking;
+		const resOrder = resRank.map(val => (resBanks.data[val]));	//은행 랭크별 정렬
+		
+		const items = resOrder.map((bank, idx) => {
+			return <BankItem key={idx} item={bank} idx={idx + 1}/>
+		});
+		const totalTbl = (
+			<tr className="last-tr">
+				{ (dataEmpty > 0) && <td colSpan={2} className="text-center">합계</td>}
+				{ total.map((val, idx) => {
+					const Icon = (()=>{
+						switch(val.status){
+							case 'increase':
+								return (<span className="tri-ico" style={{'color':'red'}}>▲</span>);
+							case 'decrease':
+								return (<span className="tri-ico" style={{'color':'blue'}}>▼</span>);
+							default:
+								break;
+						}
+					})();
+					return (
+						<td key={idx} className="text-right">
+							<span className="wrap-block">
+								<span className="block">{val.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
+								{ (val.amount !== 0) && <span className="block">({ val.amount })</span>}
+							</span>
+							{Icon}
+						</td>
+					)}
+				)}
+			</tr>
+		)
 
         const contentItems = (
-            <table className="table table-responsive-sm table-hover table-outline mb-0 table-bordered">
-                <thead className="thead-light">
-                <tr>
-                    <th className="text-center">은행명</th>
-                    { resBanks.label.map((val, idx) => (<th key={idx} className="text-center"> { val } </th>)) }
-                </tr>
-                </thead>
-                <tbody>{items}</tbody>
-            </table>
-        );
+			<table className="table table-responsive-sm table-striped table-hover table-outline mb-0 table-bordered">
+				<thead className="thead-light">
+				<tr>
+					<th className="text-center middle">순위</th>
+					<th className="text-center">은행명</th>
+					{ resBanks.head.map((val, idx) => (<th key={idx} className="text-center"> 
+						<span className="block">{ val.month }</span>
+						<span className="block">({ val.sample.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") })</span>
+					</th>)) }
+				</tr>
+				</thead>
+				<tbody>
+					{items}
+					{totalTbl}
+				</tbody>
+			</table>
+		);
 
         const content = (
             <div className="animated fadeIn">
@@ -156,14 +197,16 @@ class BankListCom extends Component {
                         <div className="card">
                             {contentHead}
                             <div className="card-body">
-                                <div className="banks-utility-wrap cf" style={{'width':'100%','position': 'relative'}}>
-                                    <BankListFilter onChange={this.handleFilter} reqBanks={this.state.reqBanks} page={this.props.location} />
-                                </div>
-                                <div>{ (this.state.areaChart !== '') && <br /> } { areaChart }</div>
-                                <hr />
-                                { contentItems }
-                                <hr />
-                            </div>
+								<div className="banks-utility-wrap cf" style={{'width':'100%','position': 'relative'}}>
+									<BankListFilter onChange={this.handleFilter} reqBanks={this.state.reqBanks} page={this.props.location} />
+								</div>
+								<div style={{'display': (!this.state.isToggle) ? 'none' : 'block'}}>
+									{ dataEmpty > 0 && areaChart }
+								</div>
+								<hr />
+								{ contentItems }
+								<hr />
+							</div>
                         </div>
                     </div>
                 </div>

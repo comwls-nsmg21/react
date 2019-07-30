@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import ReactHighcharts from 'react-highcharts';
+import Highcharts from 'highcharts';
+//import ReactHighcharts from 'react-highcharts';
 
+const SELECTOR_PREFIX = 'PieChart_';
 class PieChart extends Component {
+    constructor(props) {
+        super(props);
+        this.selector = SELECTOR_PREFIX + this.props.id;
+    }
     static defaultProps = {
         id: 0,
         item: {
@@ -18,10 +24,12 @@ class PieChart extends Component {
             ]
         },
     };
-    render() {
-        const { values } = this.props.item;
-        
-        const config = {
+    componentDidMount(){
+        this.pieChart();
+    };
+    pieChart = () => {
+        const { keys, values } = this.props.item;
+        Highcharts.chart(this.selector , {
             chart: {
                 styledMode: true
             },
@@ -36,10 +44,12 @@ class PieChart extends Component {
             credits: {
                 enabled: false,
             }
-        };
+        });
+    };
+    render() {
         return (
             <>
-                <ReactHighcharts config = {config}></ReactHighcharts>
+                <div id={this.selector}></div>
             </>
         );
     }

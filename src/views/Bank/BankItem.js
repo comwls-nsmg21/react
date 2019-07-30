@@ -7,17 +7,33 @@ class BankItem extends Component {
 	}
 
 	render() {
-		const { item, page, rowspan } = this.props; //console.log(item);
-		const isService = page.pathname === '/BankListService';
-		//console.log(page.pathname)
-		const vals = item.items.map((val, idx) => (
-			<td key={idx} className="text-right">{ val.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }</td>
-		));
+		const { item, idx } = this.props; //console.log(item);
+		const vals = item.map((val, idx) => {
+			const Icon = (()=>{
+				switch(val.status){
+					case 'increase':
+						return (<span className="tri-ico" style={{'color':'red'}}>▲</span>);
+					case 'decrease':
+						return (<span className="tri-ico" style={{'color':'blue'}}>▼</span>);
+					default:
+						break;
+				}
+			})();
+			return (
+				<td key={idx} className="text-right">
+					<span className="wrap-block">
+						<span className="block">{ val.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }</span>
+						{ (val.amount !== 0) && <span className="block">({ val.amount })</span>}
+					</span>
+					{Icon}
+				</td>
+			)
+		});
 
 		return (
 			<tr>
-				{ (isService) ? ((rowspan > 0) && <td className="text-center" rowSpan={rowspan}>{ item.bankName }</td>) : <td className="text-center" >{ item.title }</td> }
-				{ isService && <td className="text-center">{ item.serviceName }</td> }
+				<td className="text-center">{ idx }</td>
+				<td className="text-center">{item[0].company}</td>
 				{ vals }
 			</tr>
 		);

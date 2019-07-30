@@ -131,13 +131,14 @@ class NaverBank extends Component {
                 data: Object.values(val.items).map(cnt => cnt.pcCount)
 			}
 			return cItem
-		})  
+        })  
+        console.log(labels, chartItemW)
         this.setState({
-            areaChartM: <LineChart item = {{
+            areaChartM: <LineChart id={1} item = {{
 				keys: labels,
 				values: chartItemM
             }} />,
-            areaChartW: <LineChart item = {{
+            areaChartW: <LineChart id={2} item = {{
 				keys: labels,
 				values: chartItemW
             }} />

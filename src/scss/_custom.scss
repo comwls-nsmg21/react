@@ -289,4 +289,33 @@ $screen-xl-max: 1200px;
     }
   }
 }
+//뱅크
+.last-tr {
+  td {
+    border-top-width:2px;
+    background-color:#e4e7ea;
+    color:#5c6873;
+    font-weight:700;
+  }
+}
 
+.wrap-block {
+  display:inline-block;
+  vertical-align:middle;
+}
+.block {
+  display:block;
+  line-height:1.2;
+}
+.tri-ico {
+  display:inline-block;
+  margin-left:5px;
+  vertical-align:middle;
+}
+.card-header {
+  .float-left {
+    .fa {
+      margin-right:5px;
+    }
+  }
+}

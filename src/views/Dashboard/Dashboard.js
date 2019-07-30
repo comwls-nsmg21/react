@@ -64,7 +64,7 @@ class Dashboard extends Component {
                                 <i className="nav-icon fa fa-user-o"></i>개인뱅킹 앱순위
                             </div>
                             <div className="card-body">
-                                <BarChart item={{
+                                <BarChart id={1} item={{
                                    keys: personal.map(val => val.company),
                                    values: personal.map(val => val.count),
                                 }} />
@@ -77,7 +77,7 @@ class Dashboard extends Component {
                                 <i className="nav-icon fa fa-building-o"></i>기업뱅킹 앱순위
                             </div>
                             <div className="card-body">
-                                <BarChart item={{
+                                <BarChart id={2} item={{
                                    keys: company.map(val => val.company),
                                    values: company.map(val => val.count),
                                 }} />
