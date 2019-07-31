@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Highcharts from 'highcharts';
 
 const SELECTOR_PREFIX = 'BarChart_';
@@ -46,9 +46,9 @@ class BarChart extends Component {
     }
     render() {
         return (
-            <>
+            <Fragment>
                 <div id={this.selector}></div>
-            </>
+            </Fragment>
         );
     } 
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Highcharts from 'highcharts';
 
 const SELECTOR_PREFIX = 'LineChart_';
@@ -84,9 +84,9 @@ class LineChart extends Component {
     };
     render() {
         return (
-            <>
+            <Fragment>
                 <div id={this.selector}></div>
-            </>
+            </Fragment>
         );
     }
 }

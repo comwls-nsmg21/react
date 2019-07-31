@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Highcharts from 'highcharts';
 //import ReactHighcharts from 'react-highcharts';
 
@@ -50,9 +50,9 @@ class PieChart extends Component {
     };
     render() {
         return (
-            <>
+            <Fragment>
                 <div id={this.selector}></div>
-            </>
+            </Fragment>
         );
     }
 }

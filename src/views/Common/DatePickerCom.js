@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 class DatePickerCom extends Component {
     render() {
         return ( 
-            <>
+            <Fragment>
                 <label className="my-auto mx-2 font-weight-bold">검색날짜</label>
                 <div className="input-group input-daterange">
                     <DatePicker
@@ -37,7 +37,7 @@ class DatePickerCom extends Component {
                         maxDate={new Date()}
                     />
                 </div>
-            </>
+            </Fragment>
         );
     }
 }

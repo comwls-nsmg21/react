@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import axios from 'axios';
 import BarChart from '../Common/Chart/BarChart';
 import PieChart from '../Common/Chart/PieChart';
@@ -116,13 +116,13 @@ class Dashboard extends Component {
         );
 
         const content = (
-            <>
+            <Fragment>
                 {charts}
-            </>
+            </Fragment>
 
         );
 
-        return (<> {content} </>);
+        return (<Fragment> {content} </Fragment>);
     }
 }
 
