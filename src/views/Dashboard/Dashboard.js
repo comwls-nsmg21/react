@@ -13,11 +13,15 @@ class Dashboard extends Component {
     }
 
     state = {
-        statsBanks:{},
+        statsBanks:{
+            company:[],
+            personal:[],
+            keyword:{},
+            top5:{}
+        },
     };
 
     componentDidMount() {
-        this.getStatsTop();
         this.getStats();
     };
 
@@ -28,17 +32,8 @@ class Dashboard extends Component {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         })
-        .then(resBanks => { console.log(resBanks);
+        .then(resBanks => { //console.log(resBanks);
             this.setState({statsBanks: resBanks.data});
-        }).catch(err => {
-            console.log(err)
-        }).finally(() => { /* console.log(this.state) */
-        });
-    };
-
-    getStatsTop = () => {
-        axios.get(this.api["coms.indexStatsTop"], {}).then(res => { //console.log(res.data.data);
-            this.setState({statsTop: res.data.data});
         }).catch(err => {
             console.log(err)
         }).finally(() => { /* console.log(this.state) */
@@ -54,6 +49,7 @@ class Dashboard extends Component {
         const {statsBanks} = this.state;
         const { personal, company } = statsBanks
         const isNotEmpty = (Object.values(statsBanks).length > 0);
+        console.log(Object.values(statsBanks).length)
         
         const charts = (isNotEmpty) && (
             <div className="animated fadeIn">
@@ -78,6 +74,19 @@ class Dashboard extends Component {
                             </div>
                             <div className="card-body"> 
                                 <BarChart id={2} item={{ 
+                                   keys: company.map(val => val.company),
+                                   values: company.map(val => val.count),
+                                }} />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-sm-12 col-md-6">
+                        <div className="card">
+                            <div className="card-header">
+                                <i className="nav-icon fa fa-building-o"></i>기업뱅킹 앱순위
+                            </div>
+                            <div className="card-body"> 
+                                <BarChart id={3} item={{ 
                                    keys: company.map(val => val.company),
                                    values: company.map(val => val.count),
                                 }} />
