@@ -24,11 +24,11 @@ class PieChart extends Component {
             ]
         },
     };
-    componentDidMount(){
-        this.pieChart();
-    };
-    pieChart = () => {
-        const { values } = this.props.item;
+    componentWillReceiveProps(nextProps){
+        this.pieChart(nextProps);
+    }
+    pieChart = (props) => {
+        const { values } = props.item;
         Highcharts.chart(this.selector , {
             title: false,
             series: [{
@@ -38,6 +38,11 @@ class PieChart extends Component {
                 data: values,
                 showInLegend: true
             }],
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
             credits: {
                 enabled: false,
             }
