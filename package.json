@@ -24,15 +24,15 @@
   },
   "dependencies": {
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
-    "@coreui/coreui-pro": "^2.1.7",
+    "@coreui/coreui-pro": "^2.1.14",
     "@coreui/icons": "^0.3.0",
-    "@coreui/react": "^2.1.5",
+    "@coreui/react": "^2.5.1",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.7.3",
     "classnames": "^2.2.6",
     "codemirror": "^5.44.0",
-    "core-js": "^2.6.5",
+    "core-js": "^2.6.9",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.10.0",
     "flag-icon-css": "^3.3.0",
@@ -50,7 +50,7 @@
     "react-codemirror2": "^5.1.0",
     "react-datepicker": "^2.8.0",
     "react-dates": "^18.5.0",
-    "react-dom": "^16.8.4",
+    "react-dom": "^16.8.6",
     "react-google-maps": "9.4.5",
     "react-grid-layout": "^0.16.6",
     "react-highcharts": "^16.0.2",
@@ -72,7 +72,7 @@
   "devDependencies": {
     "cross-env": "^5.2.0",
     "mutationobserver-shim": "^0.3.3",
-    "react-scripts": "2.1.8"
+    "react-scripts": "^2.1.8"
   },
   "scripts": {
     "start": "cross-env NODE_ENV=development react-scripts start",
