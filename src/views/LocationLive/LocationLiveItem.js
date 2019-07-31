@@ -15,7 +15,7 @@ class LocationLiveItem extends Component {
             <tr>
                 <td className="text-center">{item[0]}</td>
                 {vals}
-            </tr>
+            </tr> 
         );
     }
 }

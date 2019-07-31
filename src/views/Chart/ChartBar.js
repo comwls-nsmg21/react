@@ -25,7 +25,7 @@ class ChartBar extends Component {
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         return nextProps.chart !== this.props.chart;
-    }
+    } 
 
     render() {
         const { keys, title, values } = this.props.item;

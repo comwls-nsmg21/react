@@ -139,7 +139,7 @@ class BankList extends Component {
 
 		//기업정보 조회서비스/은행트랜드/서비스 앱 뱅킹 구현 영역
 		const resRank = resBanks.ranking;
-		const resOrder = resRank.map(val => (resBanks.data[val]));	//은행 랭크별 정렬 
+		const resOrder = resRank.map(val => (resBanks.data[val]));	//은행 랭크별 정렬  
 		
 		const items = resOrder.map((bank, idx) => {
 			return <BankItem key={idx} item={bank} idx={idx + 1}/>

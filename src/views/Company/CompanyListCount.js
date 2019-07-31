@@ -21,7 +21,7 @@ class CompanyListCount extends Component {
 									<canvas id="sparkline-chart-1" width="100" height="30"> </canvas>
 								</div>
 							</div>
-						</div>
+						</div> 
 						<div className="col-sm-3">
 							<div className="callout callout-info">
 								<small className="text-muted">총 개수</small> <br />

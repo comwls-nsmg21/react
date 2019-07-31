@@ -42,7 +42,7 @@ class Login extends Component {
                                             </InputGroupAddon>
                                             <Input type="password" placeholder="비밀번호" autoComplete="current-password" />
                                           </InputGroup>*/}
-                                            <Row>
+                                            <Row> 
                                                 <Col xs="6">
                                                     <a href={`http://rsc9-auth.koreasouth.cloudapp.azure.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token`}
                                                        color="primary" className="px-4 btn btn-primary">로그인</a>

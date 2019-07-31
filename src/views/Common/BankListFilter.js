@@ -82,7 +82,7 @@ class BankListFilter extends Component {
         });
 
     };
-
+ 
     render() { //console.log(this.state.banks);
         const isNotEmpty = (this.state.banks.length > 0);
         const banks = (isNotEmpty) && this.state.banks.map((bank, idx) => (

@@ -27,7 +27,7 @@ class Page404 extends Component {
             </Col>
           </Row>
         </Container>
-      </div>
+      </div> 
     );
   }
 }

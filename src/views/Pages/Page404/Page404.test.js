@@ -7,3 +7,4 @@ it('renders without crashing', () => {
   ReactDOM.render(<Page404 />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
+ 

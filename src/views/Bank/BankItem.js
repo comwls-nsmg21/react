@@ -21,7 +21,7 @@ class BankItem extends Component {
 			})();
 			return (
 				<td key={idx} className="text-right">
-					<span className="wrap-block">
+					<span className="wrap-block"> 
 						<span className="block">{ val.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }</span>
 						{ (val.amount !== 0) && <span className="block">({ val.amount })</span>}
 					</span>

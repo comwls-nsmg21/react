@@ -50,7 +50,7 @@ class NaverBankMonth extends Component {
                                         endDate={this.props.endDate}
                                         handleChangeStart={this.props.handleChangeStart}
                                         handleChangeEnd={this.props.handleChangeEnd}
-                                    />
+                                    /> 
                                 </div>
                                 {/*<div className="form-inline form-group">
                                     &nbsp;

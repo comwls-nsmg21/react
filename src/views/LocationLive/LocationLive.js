@@ -70,7 +70,7 @@ class LocationLive extends Component {
                     keys: Object.keys(banks.label).map(key => banks.label[key]),
                     values: banksItem
                 }} />
-            </div>
+            </div> 
         );
 
         const items = (isNotEmpty) && (Object.entries(banks.items).map((bank, idx) => {

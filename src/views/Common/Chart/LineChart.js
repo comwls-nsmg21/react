@@ -90,5 +90,5 @@ class LineChart extends Component {
         );
     }
 }
-
+ 
 export default LineChart;

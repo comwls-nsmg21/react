@@ -171,4 +171,4 @@ class CompanyListFilter extends Component {
 	}
 }
 
-export default CompanyListFilter;
+export default CompanyListFilter; 

@@ -50,7 +50,7 @@ class BarChart extends Component {
                 <div id={this.selector}></div>
             </>
         );
-    }
+    } 
 }
 
 export default BarChart;

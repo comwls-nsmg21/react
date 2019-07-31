@@ -10,4 +10,4 @@ class Locations extends Component {
     }
 }
 
-export default Locations;
+export default Locations; 

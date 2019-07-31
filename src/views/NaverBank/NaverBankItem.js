@@ -20,6 +20,6 @@ class NaverBankItem extends Component {
             </tr>
         );
     }
-}
+} 
 
 export default NaverBankItem;

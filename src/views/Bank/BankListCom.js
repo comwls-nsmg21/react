@@ -124,7 +124,7 @@ class BankListCom extends Component {
     render() { //console.log('render'); //console.log(this.state);
         const { areaChart, resBanks } = this.state;
         const total = resBanks.total;
-		const dataLength = Object.keys(resBanks.data).length;
+		const dataLength = Object.keys(resBanks.data).length; 
 		
         //if((resBanks.label.length === 0) || (Object.keys(resBanks).length === 0)) return(<Fragment> </Fragment>);
         //if(resBanks.label.length === 0) return(<Fragment> </Fragment>);

@@ -85,7 +85,7 @@ class CompanyItemChart extends Component {
 		if(nextProps.isOpen) try { this.getChartData(); } catch (e) {}
 	}
 
-	shouldComponentUpdate(nextProps, nextState, nextContext) {
+	shouldComponentUpdate(nextProps, nextState, nextContext) { 
 		return nextProps !== this.props;
 	}
 

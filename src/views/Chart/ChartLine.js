@@ -40,7 +40,7 @@ class ChartLine extends Component {
 				label: val,
 				lineTension: 0.1,
 			};
-		});
+		}); 
 
         const line = {
             labels: keys,

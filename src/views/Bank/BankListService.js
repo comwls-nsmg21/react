@@ -189,7 +189,7 @@ class BankListService extends Component {
 				</tbody>
 			</table>
 		);
-		const content = (
+		const content = ( 
 			<div className="animated fadeIn">
 				<div className="row">
 					<div className="col-md-12">

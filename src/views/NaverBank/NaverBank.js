@@ -131,7 +131,7 @@ class NaverBank extends Component {
                 data: Object.values(val.items).map(cnt => cnt.pcCount)
 			}
 			return cItem
-        })  
+        })   
         console.log(labels, chartItemW)
         this.setState({
             areaChartM: <LineChart id={1} item = {{

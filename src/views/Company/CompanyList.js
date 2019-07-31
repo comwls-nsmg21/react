@@ -188,7 +188,7 @@ class CompanyList extends Component {
                 </div>
                 <div style={{'width':'30%'}}>
                     <h2 className="chart-title" style={{'fontSize': 17,'textAlign':'center'}}>업종 기준 사업장</h2>
-                    <BarChart id={3} item={{
+                    <BarChart id={3} item={{ 
                         keys: Object.keys(statsCat).reverse(),
                         values: Object.values(statsCat).reverse(),
                     }}

@@ -42,7 +42,7 @@ class Dashboard extends Component {
                 statsLocation: resLocation.data.data
             });
         })).catch(err => {
-            console.log(err);
+            console.log(err); 
         });
     };
 

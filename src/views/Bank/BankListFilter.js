@@ -9,7 +9,7 @@ import UpBtn from '../../../src/assets/img/bank/up_ico.png';
 
 class BankListFilter extends Component {
 
-	constructor(props) {
+	constructor(props) { 
 		super(props);
 		this.api = {
 			'banks.index': 'http://pinfin-dev.koreasouth.cloudapp.azure.com//api/banks',

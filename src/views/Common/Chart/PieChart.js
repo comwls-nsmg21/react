@@ -9,7 +9,7 @@ class PieChart extends Component {
         this.selector = SELECTOR_PREFIX + this.props.id;
     }
     static defaultProps = {
-        id: 0,
+        id: 0, 
         item: {
             keys: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             values: [

@@ -10,4 +10,4 @@ class Company extends Component {
     }
 }
 
-export default Company;
+export default Company; 

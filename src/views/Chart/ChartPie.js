@@ -48,7 +48,7 @@ class ChartPie extends Component {
 					display: false,
 					gridLines: {
 						display: false,
-					},
+					}, 
 				}],
 			}
         }

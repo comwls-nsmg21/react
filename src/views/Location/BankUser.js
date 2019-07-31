@@ -10,4 +10,4 @@ class BankUser extends Component {
     }
 }
 
-export default BankUser;
+export default BankUser; 

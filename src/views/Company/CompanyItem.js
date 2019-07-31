@@ -15,7 +15,7 @@ class CompanyItem extends Component {
 		return nextState !== this.state;
 	}
 
-	render() { //console.log(this.props);
+	render() { //console.log(this.props); 
 
 		const { idx, item, page } = this.props;
 		const { company, nps } = item; //console.log(company.geo_point);
