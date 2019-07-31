@@ -123,7 +123,8 @@ class BankListService extends Component {
     render() { //console.log('render'); //console.log(this.state);
         const { areaChart, resBanks } = this.state;
         const total = resBanks.total;
-        const dataEmpty = Object.keys(resBanks.data).length > 0;
+		const dataLength = Object.keys(resBanks.data).length;
+		
         //if((resBanks.label.length === 0) || (Object.keys(resBanks).length === 0)) return(<Fragment> </Fragment>);
         //if(resBanks.length === 0) return(<Fragment> </Fragment>);
         const contentHead = (
@@ -145,7 +146,7 @@ class BankListService extends Component {
 		});
 		const totalTbl = (
 			<tr className="last-tr">
-				{ (dataEmpty > 0) && <td colSpan={2} className="text-center">합계</td>}
+				{ (dataLength > 0) && <td colSpan={2} className="text-center">합계</td>}
 				{ total.map((val, idx) => {
 					const Icon = (()=>{
 						switch(val.status){
@@ -199,7 +200,7 @@ class BankListService extends Component {
 									<BankListFilter onChange={this.handleFilter} reqBanks={this.state.reqBanks} page={this.props.location} />
 								</div>
 								<div style={{'display': (!this.state.isToggle) ? 'none' : 'block'}}>
-									{ dataEmpty > 0 && areaChart }
+									{ dataLength > 0 && areaChart }
 								</div>
 								<hr />
 								{ contentItems }

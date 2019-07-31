@@ -28,11 +28,8 @@ class PieChart extends Component {
         this.pieChart();
     };
     pieChart = () => {
-        const { keys, values } = this.props.item;
+        const { values } = this.props.item;
         Highcharts.chart(this.selector , {
-            chart: {
-                styledMode: true
-            },
             title: false,
             series: [{
                 type: 'pie',

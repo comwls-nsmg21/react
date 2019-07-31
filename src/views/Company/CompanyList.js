@@ -170,6 +170,7 @@ class CompanyList extends Component {
         const isNotEmpty = ((coms.length > 0) && ((statsAmount.length > 0) || (Object.keys(statsCat).length > 0) || (statsEmpl.length > 0) || (Object.keys(statsTop).length > 0) ));
         const isNotEmptyPag = Object.keys(pagination).length > 0;
         //console.log(this.state); console.log(isNotEmpty);
+        console.log(statsAmount.map((val, idx) => ([val.label, val.count, (idx===0 ? true : false), (idx===0 ? true : null)])))
 
         const charts = ((isNotEmpty) && (this.isPageCom())) && (
             <div id="area_chart" style={{'width':'100%', 'display':'none','flexFlow':'row','paddingRight':'2%','boxSizing':'border-box', 'marginBottom': '2%', 'marginTop': '40px', }}>
