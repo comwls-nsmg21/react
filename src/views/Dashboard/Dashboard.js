@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import BarChart from '../Common/Chart/BarChart';
-//import PieChart from '../Common/Chart/PieChart';
+import PieChart from '../Common/Chart/PieChart';
 
 class Dashboard extends Component {
 
@@ -36,8 +36,7 @@ class Dashboard extends Component {
             this.setState({statsBanks: resBanks.data});
         }).catch(err => {
             console.log(err)
-        }).finally(() => { /* console.log(this.state) */
-        });
+        })
     };
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -47,9 +46,14 @@ class Dashboard extends Component {
     render() {
 
         const {statsBanks} = this.state;
-        const { personal, company } = statsBanks
+        const { personal, company, keyword, top5 } = statsBanks
         const isNotEmpty = (Object.values(statsBanks).length > 0);
-        console.log(Object.values(statsBanks).length)
+        let pieVal = [];
+        let idx=0;
+        for(let val in top5){
+            pieVal.push([val, top5[val], (idx===0 ? true : false), (idx===0 ? true : null)])
+            idx++;
+        };
         
         const charts = (isNotEmpty) && (
             <div className="animated fadeIn">
@@ -87,8 +91,20 @@ class Dashboard extends Component {
                             </div>
                             <div className="card-body"> 
                                 <BarChart id={3} item={{ 
-                                   keys: company.map(val => val.company),
-                                   values: company.map(val => val.count),
+                                   keys: Object.keys(keyword),
+                                   values: Object.values(keyword),
+                                }} />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-sm-12 col-md-6">
+                        <div className="card">
+                            <div className="card-header">
+                                <i className="nav-icon fa fa-building-o"></i>기업뱅킹 앱순위
+                            </div>
+                            <div className="card-body"> 
+                                <PieChart id={4} item={{
+                                    values:pieVal
                                 }} />
                             </div>
                         </div>
