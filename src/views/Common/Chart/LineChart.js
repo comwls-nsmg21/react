@@ -31,6 +31,11 @@ class LineChart extends Component {
     };
     componentDidMount(){
         this.barChart();
+        Highcharts.setOptions({
+            lang: {
+              thousandsSep: ','
+            }
+        });
     };
     barChart = () => {
         const { keys, values } = this.props.item;
@@ -44,12 +49,21 @@ class LineChart extends Component {
             },
             
             yAxis: {
-                title: false
+                title: false,
+                labels: {
+                    formatter:function() {
+                      return Highcharts.numberFormat(this.value, 0, '', ',');
+                    }
+                }
             },
             legend: {
                 layout: 'vertical',
                 align: 'right',
                 verticalAlign: 'middle'
+            },
+            tooltip: {
+                shared: true,
+                crosshairs: true,
             },
         
             plotOptions: {
