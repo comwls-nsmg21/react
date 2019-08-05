@@ -8,16 +8,16 @@ class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.api = {
-            'banks.stats':'http://rsc9-api.koreasouth.cloudapp.azure.com/api/bank/dashboard',
+            'banks.stats':'http://rsc9-api.koreasouth.cloudapp.azure.com/api/pinfin/bank',
         };
     }
 
     state = {
-        statsBanks:{
-            company:[],
-            personal:[],
-            keyword:{},
-            top5:{}
+        rankings:{
+            companyApps:[],
+            personalApps:[],
+            keywords:[],
+            companyTop5:[]
         },
     };
 
@@ -32,8 +32,8 @@ class Dashboard extends Component {
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
         })
-        .then(resBanks => { //console.log(resBanks);
-            this.setState({statsBanks: resBanks.data});
+        .then(resBanks => { //console.log(resBanks.data.data.rankings);
+            this.setState({ rankings : resBanks.data.data.rankings});
         }).catch(err => {
             console.log(err)
         })
@@ -45,15 +45,10 @@ class Dashboard extends Component {
 
     render() {
 
-        const {statsBanks} = this.state;
-        const { personal, company, keyword, top5 } = statsBanks
-        const isNotEmpty = (Object.values(statsBanks).length > 0);
-        let pieVal = [];
-        let idx=0;
-        for(let val in top5){
-            pieVal.push([val, top5[val], (idx===0 ? true : false), (idx===0 ? true : null)])
-            idx++;
-        };
+        const { rankings } = this.state;
+        const { personalApps, companyApps, keywords, companyTop5 } = rankings
+        const isNotEmpty = (Object.values(rankings).length > 0);
+        const pieVal = companyTop5.map((val, idx) => ([val.name, val.count, (idx===0 ? true : false), (idx===0 ? true : null)])) //PieChart 
         
         const charts = (isNotEmpty) && (
             <div className="animated fadeIn">
@@ -65,8 +60,8 @@ class Dashboard extends Component {
                             </div>
                             <div className="card-body">
                                 <BarChart id={1} item={{
-                                   keys: personal.map(val => val.company),
-                                   values: personal.map(val => val.count),
+                                   keys: personalApps.map(val => val.name),
+                                   values: personalApps.map(val => val.count),
                                 }} />
                             </div>
                         </div>
@@ -78,8 +73,8 @@ class Dashboard extends Component {
                             </div>
                             <div className="card-body"> 
                                 <BarChart id={2} item={{ 
-                                   keys: company.map(val => val.company),
-                                   values: company.map(val => val.count),
+                                   keys: companyApps.map(val => val.name),
+                                   values: companyApps.map(val => val.count),
                                 }} />
                             </div>
                         </div>
@@ -91,8 +86,8 @@ class Dashboard extends Component {
                             </div>
                             <div className="card-body"> 
                                 <BarChart id={3} item={{ 
-                                   keys: Object.keys(keyword),
-                                   values: Object.values(keyword),
+                                   keys: keywords.map(val => val.name),
+                                   values: keywords.map(val => val.count),
                                 }} />
                             </div>
                         </div>
