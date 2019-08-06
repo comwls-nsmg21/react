@@ -48,7 +48,6 @@ class BankListFilter extends Component {
         }).then(res => { //console.log(res.data.data.apps);
             let data = [];
             data = res.data.data.apps
-            console.log(data)
 			this.setState({ apps: data.map(bank => ( {[bank.name]: (this.props.reqBanks.includes(bank.name))} )), });
 		}).catch(err => { console.log(err);
 		}).finally(() => { this.forceUpdate(); });
