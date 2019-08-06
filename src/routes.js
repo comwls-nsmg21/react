@@ -11,7 +11,10 @@ const Locations = React.lazy(() => import('./views/Company/Locations'));
 const Bank = React.lazy(() => import('./views/Bank/BankList'));
 const BankCom = React.lazy(() => import('./views/Bank/BankListCom'));
 const BankService = React.lazy(() => import('./views/Bank/BankListService'));
-const NaverBank = React.lazy(() => import('./views/Trend/NaverBank'));
+const TrendAppsAll = React.lazy(() => import('./views/Trend/TrendAppsAll'));
+const TrendAppsKeyword = React.lazy(() => import('./views/Trend/TrendAppsKeyword'));
+const TrendAppsPrd = React.lazy(() => import('./views/Trend/TrendAppsPrd'));
+const TrendAppsPrdKeyword = React.lazy(() => import('./views/Trend/TrendAppsPrdKeyword'));
 
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -27,7 +30,10 @@ const routes = [
   { path: '/bank/BankList', name: '개인 뱅킹', component: Bank },
   { path: '/bank/BankListCom', name: '기업 뱅킹', component: BankCom },
   { path: '/bank/BankListService', name: '서비스 앱 뱅킹', component: BankService },
-  { path: '/Trend/NaverBank', name: '네이버 월간 조회수', component: NaverBank },
+  { path: '/Trend/TrendAppsAll', name: '은행별 검색(전체)', component: TrendAppsAll },
+  { path: '/Trend/TrendAppsKeyword', name: '은행별 검색(키워드)', component: TrendAppsKeyword },
+  { path: '/Trend/TrendAppsPrd', name: '은행상품별 검색(전체)', component: TrendAppsPrd },
+  { path: '/Trend/TrendAppsPrdKeyword', name: '은행상품별 검색(키워드)', component: TrendAppsPrdKeyword },
 ];
 
 export default routes;

@@ -192,12 +192,12 @@ $screen-xl-max: 1200px;
   overflow: auto;
   border:1px solid #dee2e6;
 }
-.naver-keyword {
+.trend-table {
   tbody {
     tr {
       td {
         &:first-child{
-         min-width:143px;
+         min-width:50px;
         }
       }
     }

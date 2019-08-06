@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import DateFickerCom from "../Common/DatePickerCom";
 import BankListFilter from "../Common/BankListFilter";
-import NaverBankItem from "./NaverBankItem";
+import TrendItem from "./TrendItem";
 
 class NaverBankMonth extends Component {
     render() {
@@ -18,7 +18,7 @@ class NaverBankMonth extends Component {
         );
 
         const item = resBanks.map((val,idx) => {
-            return <NaverBankItem key={idx} item={val} />
+            return <TrendItem key={idx} item={val} />
         });
 
         const contentItems = (

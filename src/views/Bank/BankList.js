@@ -10,7 +10,7 @@ class BankList extends Component {
 	constructor(props) {
 		super(props);
 		this.api = {
-			'apps.first': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps?category=bank&type=personal',
+			'apps.keys': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps?category=bank&type=personal',
 			'apps.getLists': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps/stats?category=bank&type=personal'
 		};
 		this.appsKey = {
@@ -51,7 +51,7 @@ class BankList extends Component {
 
 	getBanks = () => {
 		if(this.appsKey.apps.length === 0) {
-			axios.get(this.api["apps.first"], {
+			axios.get(this.api["apps.keys"], {
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': 'Bearer ' + localStorage.getItem('token')

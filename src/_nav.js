@@ -71,7 +71,25 @@ export default {
     },
     {
       name: '은행별 검색(전체)',
-      url: '/Trend/NaverBank',
+      url: '/Trend/TrendAppsAll',
+      class: 'font-xs',
+      icon: 'fa fa-hashtag',
+    },
+    {
+      name: '은행별 검색(키워드)',
+      url: '/Trend/TrendAppsKeyword',
+      class: 'font-xs',
+      icon: 'fa fa-hashtag',
+    },
+    {
+      name: '은행상품별 검색(전체)',
+      url: '/Trend/TrendAppsPrd',
+      class: 'font-xs',
+      icon: 'fa fa-hashtag',
+    },
+    {
+      name: '은행상품별 검색(키워드)',
+      url: '/Trend/TrendAppsPrdKeyword',
       class: 'font-xs',
       icon: 'fa fa-hashtag',
     },

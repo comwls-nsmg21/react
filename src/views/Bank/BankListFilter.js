@@ -45,7 +45,7 @@ class BankListFilter extends Component {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             }
-        }).then(res => { console.log(res.data.data.apps);
+        }).then(res => { //console.log(res.data.data.apps);
             let data = [];
             data = res.data.data.apps
 			this.setState({ apps: data.map(bank => ( {[bank.name]: (this.props.reqBanks.includes(bank.name))} )), });
@@ -73,7 +73,7 @@ class BankListFilter extends Component {
 				} else {
 					return { [name]: false };
 				}
-			}); console.log(appsmap);
+			}); //console.log(appsmap);
 			this.setState({apps: appsmap,isChecked: !this.state.isChecked});
 			resolve();
 
