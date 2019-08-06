@@ -8,12 +8,12 @@ class BankItem extends Component {
 
 	render() {
 		const { item, idx } = this.props; //console.log(item);
-		const vals = item.map((val, idx) => {
+		const vals = item.months.map((val, idx) => {
 			const Icon = (()=>{
-				switch(val.status){
-					case 'increase':
+				switch(val.trend){
+					case 'up':
 						return (<span className="tri-ico" style={{'color':'red'}}>▲</span>);
-					case 'decrease':
+					case 'down':
 						return (<span className="tri-ico" style={{'color':'blue'}}>▼</span>);
 					default:
 						break;
@@ -23,7 +23,7 @@ class BankItem extends Component {
 				<td key={idx} className="text-right">
 					<span className="wrap-block"> 
 						<span className="block">{ val.count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }</span>
-						{ (val.amount !== 0) && <span className="block">({ val.amount })</span>}
+						{ (val.differ !== 0) && <span className="block">({ val.differ }%)</span>}
 					</span>
 					{Icon}
 				</td>
@@ -33,7 +33,7 @@ class BankItem extends Component {
 		return (
 			<tr>
 				<td className="text-center">{ idx }</td>
-				<td className="text-center">{item[0].company}</td>
+				<td className="text-center">{item.name}</td>
 				{ vals }
 			</tr>
 		);

@@ -1,7 +1,5 @@
 import React, {Component, Fragment} from 'react';
 import axios from 'axios';
-import './BankListFilter.css';
-import Const from '../Common/Const';
 import $ from 'jquery';
 
 import DownBtn from '../../../src/assets/img/bank/down_ico.png';
@@ -12,17 +10,20 @@ class BankListFilter extends Component {
 	constructor(props) { 
 		super(props);
 		this.api = {
-			'banks.index': 'http://pinfin-dev.koreasouth.cloudapp.azure.com//api/banks',
+			'apps.index': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps?category=bank'
 		};
-	}
+    }
+    static defaultProps = {
+        apps: [],
+    }
 
 	state = {
-		banks: [],
+		apps: [],
 		isChecked: true
 	};
 
 	componentWillMount() {
-		if (this.state.banks.length === 0) this.getBanks();
+		if (this.state.apps.length === 0) this.getBanks();
 	}
 
 	componentDidMount() {
@@ -39,56 +40,57 @@ class BankListFilter extends Component {
 	};
 
 	getBanks = () => { //console.log(this.props.reqBanks);
-		axios.get(this.api["banks.index"], {
-		}).then(res => { //console.log(res.data.data);
-			let data = [];
-			switch (this.props.page) {
-				default: case Const.BANKS.PAGE.COM: data = res.data.data.company; break;
-				case Const.BANKS.PAGE.PVT: data = res.data.data.personal; break;
-				case Const.BANKS.PAGE.SERVICE: data = res.data.data.service; break;
-			}
-			this.setState({ banks: data.map(bank => ( {[bank.bankName]: (this.props.reqBanks.includes(bank.bankName))} )), });
+		axios.get(this.api["apps.index"], {
+			headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }).then(res => { //console.log(res.data.data.apps);
+            let data = [];
+            data = res.data.data.apps
+            console.log(data)
+			this.setState({ apps: data.map(bank => ( {[bank.name]: (this.props.reqBanks.includes(bank.name))} )), });
 		}).catch(err => { console.log(err);
 		}).finally(() => { this.forceUpdate(); });
 	};
 
 	handleChange = (e) => { //console.log(e.target.checked);
 		let pm = new Promise(resolve => {
-			const outs = this.state.banks.map(src => ( (Object.keys(src)[0] === e.target.name) ? { [e.target.name]: e.target.checked } : src )); //console.log(outs);
-			this.setState({ banks: outs });
+			const outs = this.state.apps.map(src => ( (Object.keys(src)[0] === e.target.name) ? { [e.target.name]: e.target.checked } : src )); //console.log(outs);
+			this.setState({ apps: outs });
 			resolve();
 		});
-		pm.then(() => { this.props.onChange(this.state.banks); });
+		pm.then(() => { this.props.onChange(this.state.apps); });
 	};
 	//전체 뱅킹 목록 선택
 	handleBankAllCheak = (e) => {
-		const banks = this.state.banks;
+		const apps = this.state.apps;
 		const checked = e.target.checked;
 		let pm = new Promise(resolve => {
-			const banksmap = banks.map(t => {
+			const appsmap = apps.map(t => {
 				const name = Object.keys(t)[0]; //console.log(name);
 				if(checked){
 					return { [name]: true };
 				} else {
 					return { [name]: false };
 				}
-			}); console.log(banksmap);
-			this.setState({banks: banksmap,isChecked: !this.state.isChecked});
+			}); console.log(appsmap);
+			this.setState({apps: appsmap,isChecked: !this.state.isChecked});
 			resolve();
 
 		});
 		pm.then(() => { //console.log(this.state.banks);
-			this.props.onChange(this.state.banks);
+			this.props.onChange(this.state.apps);
 		});
 
     };
 
-	render() { //console.log(this.state.banks);
-		const isNotEmpty = (this.state.banks.length > 0);
-		const banks = (isNotEmpty) && this.state.banks.map((bank, idx) => (
+	render() { //console.log(this.props);
+		const isNotEmpty = (this.state.apps.length > 0);
+		const apps = (isNotEmpty) && this.state.apps.map((app, idx) => (
 			<li key={idx}>
-				<input type="checkbox" id={`bank_${idx}`} name={Object.keys(bank)} onChange={this.handleChange} checked={Object.values(bank)[0]} />
-				<label htmlFor={`bank_${idx}`}>{ Object.keys(bank) }</label>
+				<input type="checkbox" id={`apps_${idx}`} name={Object.keys(app)} onChange={this.handleChange} checked={Object.values(app)[0]} />
+				<label htmlFor={`apps_${idx}`}>{ Object.keys(app) }</label>
 			</li>
 		));
 
@@ -102,7 +104,7 @@ class BankListFilter extends Component {
 						<ul className="option-list">
 							<li><input type="checkbox" onChange={this.handleBankAllCheak} id="allCheck" checked={this.state.isChecked} /><label
 								htmlFor="allCheck">전체</label></li>
-							{ banks }
+							{ apps }
 						</ul>
 					</div>
 					<div className="btn-close-wrap">

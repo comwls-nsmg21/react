@@ -10,54 +10,53 @@ class BankList extends Component {
 	constructor(props) {
 		super(props);
 		this.api = {
-			'banks.first': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps/banks/personal',
-			'banks.getLists': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps/banks/lists'
+			'apps.first': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps?category=bank&type=personal',
+			'apps.getLists': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps/stats?category=bank&type=personal'
 		};
-		this.banksKey = {
-			company: [],
-			personal: [],
-			service: [],
+		this.appsKey = {
+			apps:[]
 		};
 	}
 
 	state = {
 		areaChart: '',
-		reqBanks: [],
-		resBanks: {
-			data: {},
-			grapf: {},
-			head:[],
-			issue:{},
-			ranking: [],
-			total: [],
+		reqApps: [],
+		resApps: {
+            months: [],
+			apps: [],
+			stats: [],
+			samples:[],
+			totals: [],
 		},
 		isToggle: true
 	};
 
 	componentDidMount() {
 		let pm = new Promise(resolve => {
-			this.setState({ reqBanks: Object.values(Const.BANKS.NAME).map(val => val)});
+			this.setState({ reqApps: Object.values(Const.BANKS.NAME).map(val => val)});
 			resolve();
 		});
-		pm.then(() => { this.getBanks(); });
+        pm.then(() => { this.getBanks(); });
+        //this.getBanks()
 	};
 
-	getApi = () => { //console.log('getApi'); console.log(this.banksKey);
+	getApi = () => { //console.log('getApi'); console.log(this.state.reqApps);
 		let out = {
-			api: this.api["banks.first"],
-			keyParams: this.banksKey.personal.filter(bank => (this.state.reqBanks.includes(bank.bankName))),
+            api: this.api["apps.getLists"],
+            //keyParams: this.appsKey.apps.map(val => val.package),
+            keyParams: this.appsKey.apps.filter(val => (this.state.reqApps.includes(val.name))),
 		};
-		return out;
+        return out;
 	};
 
 	getBanks = () => {
-		if(this.banksKey.company.length === 0) {
-			axios.get(this.api["banks.getLists"], {
+		if(this.appsKey.apps.length === 0) {
+			axios.get(this.api["apps.first"], {
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': 'Bearer ' + localStorage.getItem('token')
 				}
-			}).then(res => { this.banksKey = res.data; //console.log(res.data)
+			}).then(res => { this.appsKey = res.data.data; //console.log(this.appsKey.apps)
 			}).catch(err => { console.log(err);
 			}).finally(() => { this.getBanks__(); });
 		} else this.getBanks__();
@@ -65,16 +64,16 @@ class BankList extends Component {
 
 	getBanks__ = () => {
 		//let date = new Date();
-		const req = this.getApi(); //console.log(req);
-		const reqBanks = req.keyParams.map(bank => bank.bankKey); //console.log(reqBanks);
+        const req = this.getApi(); //console.log(req);
+		const reqApps = req.keyParams.map(app => app.package); //console.log(reqApps);
 		axios.get(req.api, {
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': 'Bearer ' + localStorage.getItem('token')
 			},
-			params: { bankIds: reqBanks },
-		}).then(res => { //console.log(res.data);
-			this.setState({ resBanks: res.data });
+			params: { apps: reqApps },
+		}).then(res => { //console.log(res.data.data);
+			this.setState({ resApps: res.data.data }); //console.log(this.state.reqApps)
 		}).catch(err => { console.log(err);
 		}).finally(() => { this.setChart(true) });
 	};
@@ -84,30 +83,23 @@ class BankList extends Component {
 			(Object.values(cond)[0] === true)
 		)); //console.log(reqFilterConds);
 		let pm = new Promise(resolve => {
-			this.setState({ reqBanks: reqFilterConds.map(cond => Object.keys(cond)).flat() });
+			this.setState({ reqApps: reqFilterConds.map(cond => Object.keys(cond)).flat() });
 			resolve();
 		});
 		pm.then(() => { this.getBanks(); });
-	};
-
-	setChart = (refresh = false) => {
+    };
+    
+    setChart = (refresh = false) => {
 		if(refresh) this.setState({ areaChart: ''});
-		const { resBanks } = this.state; //console.log(resBanks);
-		const { data, head } = resBanks;
-		const keys = head.map(val=> val.month);
-		let values = [];
-		for(let key in data) {
-			const aaa = {
-				name: key,
-				data: data[key].map(val => val.count)
-			}
-			values.push(aaa)
-		}
+        const { resApps } = this.state;
+        const { months, stats } = resApps;
 		this.setState({
-			areaChart: <LineChart id={1} item={{
-				keys: keys,
-				values: values
-			}} />
+            areaChart: <LineChart id={1} 
+                item={{
+				    keys: months.map(val => val.month),
+				    values: stats.map(val => ({'name': val.name, 'data': val.months.map(cnt => cnt.count) }))
+                }} 
+            />
 		})
 	};
 	toggleHidden = () => {
@@ -115,18 +107,20 @@ class BankList extends Component {
 			isToggle: !this.state.isToggle
 		})
 	};
+
+	
 	
 	shouldComponentUpdate(nextProps, nextState, nextContext) {
 		return nextState !== this.state;
 	}
 
 	render() { //console.log('render'); //console.log(this.state);
-		const { areaChart, resBanks } = this.state;
-		const total = resBanks.total;
-		const dataLength = Object.keys(resBanks.data).length;
-		
-		//if((resBanks.label.length === 0) || (Object.keys(resBanks).length === 0)) return(<Fragment> </Fragment>);
-		//if(resBanks.length === 0) return(<Fragment> </Fragment>);
+        const { areaChart, resApps } = this.state;
+        const { samples, stats, totals } = resApps
+        const dataLength = stats.length;
+        
+        if(dataLength === 0) return(<Fragment> </Fragment>);
+        
 		const contentHead = (
 			<div className="card-header">
 				<div className="float-left mt-2"><i className="fa fa-user-o"></i>개인뱅킹</div>
@@ -134,58 +128,57 @@ class BankList extends Component {
 					<button	className="btn btn-outline-primary" style={{ width: '120px' }} onClick={this.toggleHidden.bind(this)}>그래프 보기</button>
 				</div>
 			</div>
-
 		);
-
+        
+        const items = stats.map((val, idx) => {
+            return <BankItem key={idx} item={val} idx={idx + 1}/>
+        });
 		//기업정보 조회서비스/은행트랜드/서비스 앱 뱅킹 구현 영역
-		const resRank = resBanks.ranking;
-		const resOrder = resRank.map(val => (resBanks.data[val]));	//은행 랭크별 정렬  
-		
-		const items = resOrder.map((bank, idx) => {
-			return <BankItem key={idx} item={bank} idx={idx + 1}/>
-		});
-		const totalTbl = (
+		// const resRank = resApps.ranking;
+		// const resOrder = resRank.map(val => (resApps.data[val]));	//은행 랭크별 정렬  
+        
+        const totalTbl = (
 			<tr className="last-tr">
-				{ (dataLength > 0) && <td colSpan={2} className="text-center">합계</td>}
-				{ total.map((val, idx) => {
-					const Icon = (()=>{
-						switch(val.status){
-							case 'increase':
-								return (<span className="tri-ico" style={{'color':'red'}}>▲</span>);
-							case 'decrease':
-								return (<span className="tri-ico" style={{'color':'blue'}}>▼</span>);
-							default:
-								break;
-						}
-					})();
-					return (
-						<td key={idx} className="text-right">
-							<span className="wrap-block">
-								<span className="block">{val.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
-								{ (val.amount !== 0) && <span className="block">({ val.amount })</span>}
-							</span>
-							{Icon}
-						</td>
-					)}
-				)}
+				{ <td colSpan={2} className="text-center">합계</td>}
+				{ totals.map((val, idx) => {
+                    const Icon = (()=>{
+                        switch(val.trend){
+                            case 'up':
+                                return (<span className="tri-ico" style={{'color':'red'}}>▲</span>);
+                            case 'down':
+                                return (<span className="tri-ico" style={{'color':'blue'}}>▼</span>);
+                            default:
+                                break;
+                        }
+                    })();
+                    return (
+                        <td key={idx} className="text-right">
+                            <span className="wrap-block">
+                                <span className="block">{val.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
+                                { (val.differ !== 0) && <span className="block">({ val.differ })</span>}
+                            </span>
+                            {Icon}
+                        </td>
+                    )}
+                )}
 			</tr>
-		)
-		
+        )
 		const contentItems = (
 			<table className="table table-responsive-sm table-striped table-hover table-outline mb-0 table-bordered">
 				<thead className="thead-light">
 				<tr>
 					<th className="text-center middle">순위</th>
-					<th className="text-center">은행명</th>
-					{ resBanks.head.map((val, idx) => (<th key={idx} className="text-center"> 
+                    <th className="text-center">은행명</th>
+
+					{ samples.map((val, idx) => (<th key={idx} className="text-center"> 
 						<span className="block">{ val.month }</span>
 						<span className="block">({ val.sample.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") })</span>
-					</th>)) }
+                    </th>)) }
 				</tr>
 				</thead>
-				<tbody>
-					{items}
-					{totalTbl}
+                <tbody>
+					{ items }
+					{ totalTbl }
 				</tbody>
 			</table>
 		);
@@ -197,12 +190,12 @@ class BankList extends Component {
 							{contentHead}
 							<div className="card-body">
 								<div className="banks-utility-wrap cf" style={{'width':'100%','position': 'relative'}}>
-									<BankListFilter onChange={this.handleFilter} reqBanks={this.state.reqBanks} page={this.props.location} />
-								</div>
-								<div style={{'display': (!this.state.isToggle) ? 'none' : 'block'}}>
+									<BankListFilter onChange={this.handleFilter} reqBanks={this.state.reqApps} page={this.props.location} />
+                                </div>
+                                <div style={{'display': (!this.state.isToggle) ? 'none' : 'block'}}>
 									{ dataLength > 0 && areaChart }
-								</div>
-								<hr />
+                                </div>
+                                <hr />
 								{ contentItems }
 								<hr />
 							</div>
