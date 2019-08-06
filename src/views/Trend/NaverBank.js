@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import axios from 'axios/index';
+import axios from 'axios';
 import * as moment from "moment/moment";
 import Const from "../Common/Const";
 import NaverBankMonth from "./NaverBankMonth"
@@ -14,6 +14,8 @@ class NaverBank extends Component {
         const lastWeek = d.getDate();
 
         this.api = {
+            'trend': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/trends?category=bank&type=company',
+            
             'naver': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/keywords/naver',
             'naver.stats': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/keywords/naver/stats',
             'banks.getKeys': 'http://pinfin-dev.koreasouth.cloudapp.azure.com/api/banks',
@@ -51,6 +53,14 @@ class NaverBank extends Component {
     }
 
     componentDidMount() {
+        axios.get(this.api["trend"], {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }).then(res => { console.log(res.data.data)
+        }).catch(err => { console.log(err);})
+
         let pm = new Promise(resolve => {
             this.setState({ reqBanks: Object.values(Const.BANKS.NAME).map(val => val)/*[Const.BANKS.NAME.KB, Const.BANKS.NAME.KAKAO, Const.BANKS.NAME.SHINHAN]*/ });
             resolve();

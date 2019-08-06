@@ -190,7 +190,7 @@ class BankListCom extends Component {
 							{contentHead}
 							<div className="card-body">
 								<div className="banks-utility-wrap cf" style={{'width':'100%','position': 'relative'}}>
-									<BankListFilter onChange={this.handleFilter} reqBanks={this.state.reqApps} page={this.props.location} />
+									<BankListFilter onChange={this.handleFilter} reqBanks={this.state.reqApps} resApps={this.appsKey.apps} page={this.props.location} />
                                 </div>
                                 <div style={{'display': (!this.state.isToggle) ? 'none' : 'block'}}>
 									{ dataLength > 0 && areaChart }

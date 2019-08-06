@@ -71,7 +71,7 @@ export default {
     },
     {
       name: '은행별 검색(전체)',
-      url: '/NaverBank/NaverBank',
+      url: '/Trend/NaverBank',
       class: 'font-xs',
       icon: 'fa fa-hashtag',
     },

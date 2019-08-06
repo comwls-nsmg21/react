@@ -11,7 +11,7 @@ const Locations = React.lazy(() => import('./views/Company/Locations'));
 const Bank = React.lazy(() => import('./views/Bank/BankList'));
 const BankCom = React.lazy(() => import('./views/Bank/BankListCom'));
 const BankService = React.lazy(() => import('./views/Bank/BankListService'));
-const NaverBank = React.lazy(() => import('./views/NaverBank/NaverBank'));
+const NaverBank = React.lazy(() => import('./views/Trend/NaverBank'));
 
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -27,7 +27,7 @@ const routes = [
   { path: '/bank/BankList', name: '개인 뱅킹', component: Bank },
   { path: '/bank/BankListCom', name: '기업 뱅킹', component: BankCom },
   { path: '/bank/BankListService', name: '서비스 앱 뱅킹', component: BankService },
-  { path: '/NaverBank/NaverBank', name: '네이버 월간 조회수', component: NaverBank },
+  { path: '/Trend/NaverBank', name: '네이버 월간 조회수', component: NaverBank },
 ];
 
 export default routes;
