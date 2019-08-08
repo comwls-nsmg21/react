@@ -10,7 +10,7 @@ class BankListFilter extends Component {
 	constructor(props) { 
 		super(props);
 		this.api = {
-			'apps.index': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps?category=bank'
+			'apps.index': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/targets?category=bank'
 		};
     }
     static defaultProps = {

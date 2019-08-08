@@ -14,7 +14,7 @@ class BankListService extends Component {
 			'apps.getLists': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps/stats?category=bank&type=service'
 		};
 		this.appsKey = {
-			targets:[]
+			apps:[]
 		};
 	}
 
@@ -44,13 +44,13 @@ class BankListService extends Component {
 		let out = {
             api: this.api["apps.getLists"],
             //keyParams: this.appsKey.apps.map(val => val.package),
-            keyParams: this.appsKey.targets.filter(val => (this.state.reqApps.includes(val.name))),
+            keyParams: this.appsKey.apps.filter(val => (this.state.reqApps.includes(val.name))),
 		};
         return out;
 	};
 
 	getBanks = () => {
-		if(this.appsKey.targets.length === 0) {
+		if(this.appsKey.apps.length === 0) {
 			axios.get(this.api["apps.keys"], {
 				headers: {
 					'Content-Type': 'application/json',
