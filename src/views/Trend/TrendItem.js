@@ -9,9 +9,9 @@ class TrendItem extends Component {
         const item = this.props;
         const dates = item.item.dates;
         const val = dates.map((val,idx) => {    //switch 함수 임시
-            
+            const obj = val.mobile || val.pc || val.total;
             const Icon = (()=>{
-				switch(val.mobile.trend){
+				switch(obj.trend){
 					case 'up':
 						return (<span className="tri-ico" style={{'color':'red'}}>▲</span>);
 					case 'down':
