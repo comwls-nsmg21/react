@@ -122,11 +122,11 @@ class TrendAppsPrd extends Component {
         this.setState({
             areaChartM: <LineChart id={1} item = {{
 				keys: dates.map(val => val.name),
-				values: trends.map(val => ({'name': val.name, 'data': val.dates.map(cnt => cnt.mobile_count)}))
+				values: trends.map(val => ({'name': val.name, 'data': val.dates.map(cnt => cnt.mobile.count)}))
             }} />,
             areaChartW: <LineChart id={2} item = {{
 				keys: dates.map(val => val.name),
-				values: trends.map(val => ({'name': val.name, 'data': val.dates.map(cnt => cnt.pc_count)}))
+				values: trends.map(val => ({'name': val.name, 'data': val.dates.map(cnt => cnt.pc.count)}))
             }} />
         });
     };

@@ -9,7 +9,6 @@ class TrendItemKeyword extends Component {
         const item = this.props;
         const dates = item.item.dates;
         const val = dates.map((val,idx) => {    //switch 함수 임시
-            console.log(val)
             const Icon = (()=>{
 				switch(val.mobile.trend){
 					case 'up':
