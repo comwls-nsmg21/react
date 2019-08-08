@@ -177,7 +177,7 @@ class TrendAppKeyword extends Component {
                     { dates.map((val, idx) => (<th className="text-center" colSpan={3} key={idx}>{val.date}</th>)) }
                 </tr>
                 <tr>
-                    { dates.map(idx => (<React.Fragment key={idx}><th className="text-center">모바일</th><th className="text-center">웹</th><th className="text-center">합계</th></React.Fragment>)) }
+                    { dates.map((val, idx) => (<React.Fragment key={idx}><th className="text-center">모바일</th><th className="text-center">웹</th><th className="text-center">합계</th></React.Fragment>)) }
                 </tr>
                 </thead>
                 <tbody>
