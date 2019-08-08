@@ -15,11 +15,11 @@ class TrendAppKeyword extends Component {
         const lastWeek = d.getDate();
 
         this.api = {
-            'apps.keys': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/apps?category=bank',
+            'apps.keys': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/targets?category=bank',
             'trend': 'http://rsc9-api.koreasouth.cloudapp.azure.com/api/trends/keywords?category=bank&type=company',
         };
         this.appsKey = {
-			apps:[]
+			targets:[]
 		};
         this.state = {
             //차트
@@ -60,14 +60,14 @@ class TrendAppKeyword extends Component {
     getApi = () => { //console.log('getApi'); console.log(this.appsKey.apps);
         let out = {
             api: this.api["trend"],
-            keyParams: this.appsKey.apps.filter(val => (this.state.reqApps.includes(val.name))),
+            keyParams: this.appsKey.targets.filter(val => (this.state.reqApps.includes(val.name))),
         };
         return out;
     };
 
 
     getBanks = () => {
-        if(this.appsKey.apps.length === 0) {
+        if(this.appsKey.targets.length === 0) {
             axios.get(this.api["apps.keys"], {
                 headers: {
 					'Content-Type': 'application/json',
